@@ -1,0 +1,8 @@
+E:\process\VS2013\DataTransfer\DataTransfer\bin\Debug\DataTransfer.exe.config
+E:\process\VS2013\DataTransfer\DataTransfer\obj\Debug\DataTransfer.Properties.Resources.resources
+E:\process\VS2013\DataTransfer\DataTransfer\obj\Debug\DataTransfer.csproj.GenerateResource.Cache
+E:\process\VS2013\DataTransfer\DataTransfer\bin\Debug\DataTransfer.exe
+E:\process\VS2013\DataTransfer\DataTransfer\bin\Debug\DataTransfer.pdb
+E:\process\VS2013\DataTransfer\DataTransfer\obj\Debug\DataTransfer.exe
+E:\process\VS2013\DataTransfer\DataTransfer\obj\Debug\DataTransfer.pdb
+E:\process\VS2013\DataTransfer\DataTransfer\obj\Debug\DataTransfer.main_menu.resources
