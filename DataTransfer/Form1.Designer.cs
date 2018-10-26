@@ -646,9 +646,9 @@ namespace DataTransfer
     partial class main_menu
     {
         private EncryptList encryptList = new EncryptList();
-
         private Data_transfer dataTransfer1 = new Data_transfer();
         private Data_transfer dataTransfer2 = new Data_transfer();
+
         /// <summary>
         /// 必需的设计器变量。
         /// </summary>
@@ -687,15 +687,14 @@ namespace DataTransfer
             this.check_hex2_1 = new System.Windows.Forms.CheckBox();
             this.check_hex2_2 = new System.Windows.Forms.CheckBox();
             this.check_space_1 = new System.Windows.Forms.CheckBox();
-            this.check_3desEncode = new System.Windows.Forms.CheckBox();
-            this.check_3desDecode = new System.Windows.Forms.CheckBox();
-            this.check_enbase64 = new System.Windows.Forms.CheckBox();
-            this.check_debase64 = new System.Windows.Forms.CheckBox();
-            this.check_aesEncode = new System.Windows.Forms.CheckBox();
-            this.check_aesDecode = new System.Windows.Forms.CheckBox();
-            this.check_desEncode = new System.Windows.Forms.CheckBox();
-            this.check_desDecode = new System.Windows.Forms.CheckBox();
-            this.textKey = new System.Windows.Forms.TextBox();
+            this.text_key = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.list_encrption = new System.Windows.Forms.ComboBox();
+            this.button_en = new System.Windows.Forms.Button();
+            this.button_de = new System.Windows.Forms.Button();
+            this.check_file = new System.Windows.Forms.CheckBox();
+            this.text_file = new System.Windows.Forms.TextBox();
+            this.label2 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // text_2
@@ -706,10 +705,10 @@ namespace DataTransfer
             this.text_2.Location = new System.Drawing.Point(12, 390);
             this.text_2.Multiline = true;
             this.text_2.Name = "text_2";
-            this.text_2.ReadOnly = true;
             this.text_2.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.text_2.Size = new System.Drawing.Size(600, 220);
             this.text_2.TabIndex = 1;
+            this.text_2.KeyDown += new System.Windows.Forms.KeyEventHandler(this.text_2_KeyDown);
             // 
             // text_1
             // 
@@ -722,6 +721,7 @@ namespace DataTransfer
             this.text_1.Size = new System.Drawing.Size(600, 320);
             this.text_1.TabIndex = 0;
             this.text_1.TextChanged += new System.EventHandler(this.text_1_TextChanged);
+            this.text_1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.text_1_KeyDown);
             // 
             // check_ascii_1
             // 
@@ -792,7 +792,7 @@ namespace DataTransfer
             // check_hex2_1
             // 
             this.check_hex2_1.AutoSize = true;
-            this.check_hex2_1.Location = new System.Drawing.Point(173, 338);
+            this.check_hex2_1.Location = new System.Drawing.Point(179, 338);
             this.check_hex2_1.Name = "check_hex2_1";
             this.check_hex2_1.Size = new System.Drawing.Size(53, 20);
             this.check_hex2_1.TabIndex = 12;
@@ -803,7 +803,7 @@ namespace DataTransfer
             // check_hex2_2
             // 
             this.check_hex2_2.AutoSize = true;
-            this.check_hex2_2.Location = new System.Drawing.Point(173, 364);
+            this.check_hex2_2.Location = new System.Drawing.Point(179, 364);
             this.check_hex2_2.Name = "check_hex2_2";
             this.check_hex2_2.Size = new System.Drawing.Size(59, 20);
             this.check_hex2_2.TabIndex = 13;
@@ -816,123 +816,111 @@ namespace DataTransfer
             this.check_space_1.AutoSize = true;
             this.check_space_1.Checked = true;
             this.check_space_1.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.check_space_1.Location = new System.Drawing.Point(226, 364);
+            this.check_space_1.Location = new System.Drawing.Point(234, 364);
             this.check_space_1.Name = "check_space_1";
-            this.check_space_1.Size = new System.Drawing.Size(92, 20);
+            this.check_space_1.Size = new System.Drawing.Size(62, 20);
             this.check_space_1.TabIndex = 14;
-            this.check_space_1.Text = "insert space )";
+            this.check_space_1.Text = "Space )";
             this.check_space_1.UseVisualStyleBackColor = true;
             this.check_space_1.CheckedChanged += new System.EventHandler(this.check_space_1_CheckedChanged);
             // 
-            // check_3desEncode
+            // text_key
             // 
-            this.check_3desEncode.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.check_3desEncode.AutoSize = true;
-            this.check_3desEncode.Location = new System.Drawing.Point(548, 338);
-            this.check_3desEncode.Name = "check_3desEncode";
-            this.check_3desEncode.Size = new System.Drawing.Size(64, 20);
-            this.check_3desEncode.TabIndex = 15;
-            this.check_3desEncode.Text = "Des3En";
-            this.check_3desEncode.UseVisualStyleBackColor = true;
-            this.check_3desEncode.CheckedChanged += new System.EventHandler(this.check_3desEncode_CheckedChanged);
-            // 
-            // check_3desDecode
-            // 
-            this.check_3desDecode.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.check_3desDecode.AutoSize = true;
-            this.check_3desDecode.Location = new System.Drawing.Point(548, 364);
-            this.check_3desDecode.Name = "check_3desDecode";
-            this.check_3desDecode.Size = new System.Drawing.Size(66, 20);
-            this.check_3desDecode.TabIndex = 16;
-            this.check_3desDecode.Text = "Des3De";
-            this.check_3desDecode.UseVisualStyleBackColor = true;
-            this.check_3desDecode.CheckedChanged += new System.EventHandler(this.check_3desDecode_CheckedChanged);
-            // 
-            // check_enbase64
-            // 
-            this.check_enbase64.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.check_enbase64.AutoSize = true;
-            this.check_enbase64.Location = new System.Drawing.Point(350, 338);
-            this.check_enbase64.Name = "check_enbase64";
-            this.check_enbase64.Size = new System.Drawing.Size(74, 20);
-            this.check_enbase64.TabIndex = 17;
-            this.check_enbase64.Text = "Base64En";
-            this.check_enbase64.UseVisualStyleBackColor = true;
-            this.check_enbase64.CheckedChanged += new System.EventHandler(this.check_enbase64_CheckedChanged);
-            // 
-            // check_debase64
-            // 
-            this.check_debase64.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.check_debase64.AutoSize = true;
-            this.check_debase64.Location = new System.Drawing.Point(350, 364);
-            this.check_debase64.Name = "check_debase64";
-            this.check_debase64.Size = new System.Drawing.Size(76, 20);
-            this.check_debase64.TabIndex = 18;
-            this.check_debase64.Text = "Base64De";
-            this.check_debase64.UseVisualStyleBackColor = true;
-            this.check_debase64.CheckedChanged += new System.EventHandler(this.check_debase64_CheckedChanged);
-            // 
-            // check_aesEncode
-            // 
-            this.check_aesEncode.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.check_aesEncode.AutoSize = true;
-            this.check_aesEncode.Location = new System.Drawing.Point(428, 338);
-            this.check_aesEncode.Name = "check_aesEncode";
-            this.check_aesEncode.Size = new System.Drawing.Size(57, 20);
-            this.check_aesEncode.TabIndex = 19;
-            this.check_aesEncode.Text = "AesEn";
-            this.check_aesEncode.UseVisualStyleBackColor = true;
-            this.check_aesEncode.CheckedChanged += new System.EventHandler(this.check_aesEncode_CheckedChanged);
-            // 
-            // check_aesDecode
-            // 
-            this.check_aesDecode.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.check_aesDecode.AutoSize = true;
-            this.check_aesDecode.Location = new System.Drawing.Point(428, 364);
-            this.check_aesDecode.Name = "check_aesDecode";
-            this.check_aesDecode.Size = new System.Drawing.Size(59, 20);
-            this.check_aesDecode.TabIndex = 20;
-            this.check_aesDecode.Text = "AesDe";
-            this.check_aesDecode.UseVisualStyleBackColor = true;
-            this.check_aesDecode.CheckedChanged += new System.EventHandler(this.check_aesDecode_CheckedChanged);
-            // 
-            // check_desEncode
-            // 
-            this.check_desEncode.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.check_desEncode.AutoSize = true;
-            this.check_desEncode.Location = new System.Drawing.Point(486, 338);
-            this.check_desEncode.Name = "check_desEncode";
-            this.check_desEncode.Size = new System.Drawing.Size(58, 20);
-            this.check_desEncode.TabIndex = 21;
-            this.check_desEncode.Text = "DesEn";
-            this.check_desEncode.UseVisualStyleBackColor = true;
-            this.check_desEncode.CheckedChanged += new System.EventHandler(this.check_desEncode_CheckedChanged);
-            // 
-            // check_desDecode
-            // 
-            this.check_desDecode.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.check_desDecode.AutoSize = true;
-            this.check_desDecode.Location = new System.Drawing.Point(486, 364);
-            this.check_desDecode.Name = "check_desDecode";
-            this.check_desDecode.Size = new System.Drawing.Size(60, 20);
-            this.check_desDecode.TabIndex = 22;
-            this.check_desDecode.Text = "DesDe";
-            this.check_desDecode.UseVisualStyleBackColor = true;
-            this.check_desDecode.CheckedChanged += new System.EventHandler(this.check_desDecode_CheckedChanged);
-            // 
-            // textKey
-            // 
-            this.textKey.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.text_key.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.textKey.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.textKey.ForeColor = System.Drawing.Color.Red;
-            this.textKey.Location = new System.Drawing.Point(226, 338);
-            this.textKey.MaxLength = 32;
-            this.textKey.Name = "textKey";
-            this.textKey.Size = new System.Drawing.Size(118, 21);
-            this.textKey.TabIndex = 23;
-            this.textKey.Text = "0123456789012345";
-            this.textKey.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.text_key.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.text_key.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.text_key.ForeColor = System.Drawing.Color.Red;
+            this.text_key.Location = new System.Drawing.Point(433, 337);
+            this.text_key.MaxLength = 32;
+            this.text_key.Name = "text_key";
+            this.text_key.Size = new System.Drawing.Size(179, 23);
+            this.text_key.TabIndex = 23;
+            this.text_key.Text = "0123456789012345";
+            this.text_key.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(238, 339);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(54, 16);
+            this.label1.TabIndex = 24;
+            this.label1.Text = "Encrption";
+            // 
+            // list_encrption
+            // 
+            this.list_encrption.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.list_encrption.FormattingEnabled = true;
+            this.list_encrption.Items.AddRange(new object[] {
+            "BASE64",
+            "AES",
+            "DES",
+            "DES3",
+            "MD5"});
+            this.list_encrption.Location = new System.Drawing.Point(291, 337);
+            this.list_encrption.Name = "list_encrption";
+            this.list_encrption.Size = new System.Drawing.Size(101, 24);
+            this.list_encrption.TabIndex = 25;
+            this.list_encrption.SelectedIndexChanged += new System.EventHandler(this.list_encrption_SelectedIndexChanged);
+            // 
+            // button_en
+            // 
+            this.button_en.Enabled = false;
+            this.button_en.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.button_en.Location = new System.Drawing.Point(291, 364);
+            this.button_en.Name = "button_en";
+            this.button_en.Size = new System.Drawing.Size(39, 23);
+            this.button_en.TabIndex = 26;
+            this.button_en.Text = "EN";
+            this.button_en.UseVisualStyleBackColor = true;
+            this.button_en.Click += new System.EventHandler(this.button_en_Click);
+            // 
+            // button_de
+            // 
+            this.button_de.Enabled = false;
+            this.button_de.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.button_de.Location = new System.Drawing.Point(336, 364);
+            this.button_de.Name = "button_de";
+            this.button_de.Size = new System.Drawing.Size(39, 23);
+            this.button_de.TabIndex = 27;
+            this.button_de.Text = "DE";
+            this.button_de.UseVisualStyleBackColor = true;
+            this.button_de.Click += new System.EventHandler(this.button_de_Click);
+            // 
+            // check_file
+            // 
+            this.check_file.AutoSize = true;
+            this.check_file.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.check_file.Location = new System.Drawing.Point(381, 366);
+            this.check_file.Name = "check_file";
+            this.check_file.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.check_file.Size = new System.Drawing.Size(46, 21);
+            this.check_file.TabIndex = 28;
+            this.check_file.Text = "File";
+            this.check_file.UseVisualStyleBackColor = true;
+            this.check_file.CheckedChanged += new System.EventHandler(this.check_file_CheckedChanged);
+            // 
+            // text_file
+            // 
+            this.text_file.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.text_file.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.text_file.Location = new System.Drawing.Point(433, 364);
+            this.text_file.Name = "text_file";
+            this.text_file.Size = new System.Drawing.Size(179, 23);
+            this.text_file.TabIndex = 29;
+            this.text_file.KeyDown += new System.Windows.Forms.KeyEventHandler(this.text_file_KeyDown);
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label2.Location = new System.Drawing.Point(398, 339);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(29, 17);
+            this.label2.TabIndex = 30;
+            this.label2.Text = "Key";
             // 
             // main_menu
             // 
@@ -940,15 +928,14 @@ namespace DataTransfer
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.InactiveCaption;
             this.ClientSize = new System.Drawing.Size(624, 622);
-            this.Controls.Add(this.textKey);
-            this.Controls.Add(this.check_desDecode);
-            this.Controls.Add(this.check_desEncode);
-            this.Controls.Add(this.check_aesDecode);
-            this.Controls.Add(this.check_aesEncode);
-            this.Controls.Add(this.check_debase64);
-            this.Controls.Add(this.check_enbase64);
-            this.Controls.Add(this.check_3desDecode);
-            this.Controls.Add(this.check_3desEncode);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.text_file);
+            this.Controls.Add(this.check_file);
+            this.Controls.Add(this.button_de);
+            this.Controls.Add(this.button_en);
+            this.Controls.Add(this.list_encrption);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.text_key);
             this.Controls.Add(this.check_space_1);
             this.Controls.Add(this.check_hex2_2);
             this.Controls.Add(this.check_hex2_1);
@@ -985,15 +972,14 @@ namespace DataTransfer
         private System.Windows.Forms.CheckBox check_hex2_1;
         private System.Windows.Forms.CheckBox check_hex2_2;
         private System.Windows.Forms.CheckBox check_space_1;
-        private System.Windows.Forms.CheckBox check_3desEncode;
-        private System.Windows.Forms.CheckBox check_3desDecode;
-        private System.Windows.Forms.CheckBox check_enbase64;
-        private System.Windows.Forms.CheckBox check_debase64;
-        private System.Windows.Forms.CheckBox check_aesEncode;
-        private System.Windows.Forms.CheckBox check_aesDecode;
-        private System.Windows.Forms.CheckBox check_desEncode;
-        private System.Windows.Forms.CheckBox check_desDecode;
-        private System.Windows.Forms.TextBox textKey;
+        private System.Windows.Forms.TextBox text_key;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.ComboBox list_encrption;
+        private System.Windows.Forms.Button button_en;
+        private System.Windows.Forms.Button button_de;
+        private System.Windows.Forms.CheckBox check_file;
+        private System.Windows.Forms.TextBox text_file;
+        private System.Windows.Forms.Label label2;
     }
 }
 

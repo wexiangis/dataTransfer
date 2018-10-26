@@ -32,48 +32,48 @@ namespace DataTransfer
             if (dataTransfer1.getAscii())
             {
                 if (dataTransfer2.getHex16())
-                    this.text_2.Text = dataTransfer1.asciiToHex16(input);
+                    text_2.Text = dataTransfer1.asciiToHex16(input);
                 else if (dataTransfer2.getHex10())
-                    this.text_2.Text = dataTransfer1.asciiToHex10(input);
+                    text_2.Text = dataTransfer1.asciiToHex10(input);
                 else if (dataTransfer2.getHex2())
-                    this.text_2.Text = dataTransfer1.asciiToHex2(input);
+                    text_2.Text = dataTransfer1.asciiToHex2(input);
                 else
-                    this.text_2.Text = input;
+                    text_2.Text = input;
             }
             else if (dataTransfer1.getHex16())
             {
                 if (dataTransfer2.getAscii())
-                    this.text_2.Text = dataTransfer1.hex16ToAscii(input);
+                    text_2.Text = dataTransfer1.hex16ToAscii(input);
                 else if (dataTransfer2.getHex10())
-                    this.text_2.Text = dataTransfer1.hex16ToHex10(input);
+                    text_2.Text = dataTransfer1.hex16ToHex10(input);
                 else if (dataTransfer2.getHex2())
-                    this.text_2.Text = dataTransfer1.hex16ToHex2(input);
+                    text_2.Text = dataTransfer1.hex16ToHex2(input);
                 else
-                    this.text_2.Text = input;
+                    text_2.Text = input;
             }
             else if (dataTransfer1.getHex10())
             {
                 if (dataTransfer2.getAscii())
-                    this.text_2.Text = dataTransfer1.hex10ToAscii(input);
+                    text_2.Text = dataTransfer1.hex10ToAscii(input);
                 else if (dataTransfer2.getHex16())
-                    this.text_2.Text = dataTransfer1.hex10ToHex16(input);
+                    text_2.Text = dataTransfer1.hex10ToHex16(input);
                 else if (dataTransfer2.getHex2())
-                    this.text_2.Text = dataTransfer1.hex10ToHex2(input);
+                    text_2.Text = dataTransfer1.hex10ToHex2(input);
                 else
-                    this.text_2.Text = input;
+                    text_2.Text = input;
             }
             else if (dataTransfer1.getHex2())
             {
                 if (dataTransfer2.getAscii())
-                    this.text_2.Text = dataTransfer1.hex2ToAscii(input);
+                    text_2.Text = dataTransfer1.hex2ToAscii(input);
                 else if (dataTransfer2.getHex16())
-                    this.text_2.Text = dataTransfer1.hex2ToHex16(input);
+                    text_2.Text = dataTransfer1.hex2ToHex16(input);
                 else if (dataTransfer2.getHex10())
-                    this.text_2.Text = dataTransfer1.hex2ToHex10(input);
+                    text_2.Text = dataTransfer1.hex2ToHex10(input);
                 else
-                    this.text_2.Text = input;
+                    text_2.Text = input;
             }else
-                this.text_2.Text = "未指定转换类型";
+                text_2.Text = "未指定转换类型";
         }
         public void textSwitch2(string input)
         {
@@ -126,6 +126,7 @@ namespace DataTransfer
         public main_menu()
         {
             InitializeComponent();
+            this.list_encrption.SelectedIndex = 0;
         }
         private void text_1_TextChanged(object sender, EventArgs e)
         {
@@ -154,7 +155,6 @@ namespace DataTransfer
             checkBox2Flash();
             textSwitch1(this.text_1.Text);
         }
-
         private void check_hex16_1_CheckedChanged(object sender, EventArgs e)
         {
             if (check_hex16_1.CheckState == CheckState.Checked)
@@ -177,7 +177,6 @@ namespace DataTransfer
             checkBox2Flash();
             textSwitch1(this.text_1.Text);
         }
-
         private void check_hex10_1_CheckedChanged(object sender, EventArgs e)
         {
             if (check_hex10_1.CheckState == CheckState.Checked)
@@ -222,7 +221,6 @@ namespace DataTransfer
             checkBox2Flash();
             textSwitch1(this.text_1.Text);
         }
-
         private void check_space_1_CheckedChanged(object sender, EventArgs e)
         {
             if (check_space_1.CheckState == CheckState.Checked)
@@ -235,243 +233,364 @@ namespace DataTransfer
             textSwitch1(this.text_1.Text);
         }
 
-        private void check_3desEncode_CheckedChanged(object sender, EventArgs e)
+        private void button_en_Click(object sender, EventArgs e)
         {
-            if (check_3desEncode.CheckState == CheckState.Checked)
+            int ret = -1;
+            this.text_2.Text = "处理中 ...\r\n";
+            if(this.check_file.Checked && this.text_file.Text.Length > 0)
             {
-                try
+                switch (this.list_encrption.SelectedIndex)
                 {
-                    string result;
-                    if (this.check_hex16_1.Checked)
-                        result = encryptList.Des3Encryption(Encoding.ASCII.GetString(this.dataTransfer1.hex16ToAscii2(text_1.Text)), this.textKey.Text);
-                    else if (this.check_hex10_1.Checked)
-                        result = encryptList.Des3Encryption(Encoding.ASCII.GetString(this.dataTransfer1.hex10ToAscii2(text_1.Text)), this.textKey.Text);
-                    else if (this.check_hex2_1.Checked)
-                        result = encryptList.Des3Encryption(Encoding.ASCII.GetString(this.dataTransfer1.hex2ToAscii2(text_1.Text)), this.textKey.Text);
-                    else
-                        result = encryptList.Des3Encryption(text_1.Text, this.textKey.Text);
-                    //
-                    if (this.check_hex16_2.Checked)
-                        text_2.Text = this.dataTransfer2.asciiToHex16(result);
-                    else if (this.check_hex10_2.Checked)
-                        text_2.Text = this.dataTransfer2.asciiToHex10(result);
-                    else if (this.check_hex2_2.Checked)
-                        text_2.Text = this.dataTransfer2.asciiToHex2(result);
-                    else
-                        text_2.Text = result;
+                    case 0: //BASE64
+                        text_2.Text = "不支持 BASE64 处理文件\r\n";
+                        break;
+                    case 1: //AES
+                        ret = this.encryptList.AesEncryptionFile(this.text_file.Text, this.text_file.Text+".AesEncode.bin", this.text_key.Text, true);
+                        if(ret == 0)
+                            this.text_2.Text = this.text_file.Text + ".AesEncode.bin" + "\r\n";
+                        else if (ret == -2)
+                            this.text_2.Text = this.text_file.Text + " open failed\r\n";
+                        else
+                            this.text_2.Text = "aesEncode failed !\r\n";
+                        break;
+                    case 2: //DES
+                        ret = this.encryptList.DesEncryptionFile(this.text_file.Text, this.text_file.Text + ".DesEncode.bin", this.text_key.Text, true);
+                        if (ret == 0)
+                            this.text_2.Text = this.text_file.Text + ".DesEncode.bin" + "\r\n";
+                        else if (ret == -2)
+                            this.text_2.Text = this.text_file.Text + " open failed\r\n";
+                        else
+                            this.text_2.Text = "desEncode failed !\r\n";
+                        break;
+                    case 3: //DES3
+                        ret = this.encryptList.Des3EncryptionFile(this.text_file.Text, this.text_file.Text + ".Des3Encode.bin", this.text_key.Text, true);
+                        if (ret == 0)
+                            this.text_2.Text = this.text_file.Text + ".Des3Encode.bin" + "\r\n";
+                        else if (ret == -2)
+                            this.text_2.Text = this.text_file.Text + " open failed\r\n";
+                        else
+                            this.text_2.Text = "des3Encode failed !\r\n";
+                        break;
+                    case 4: //MD5
+                        this.text_2.Text = this.encryptList.Md5EncryptionFile(this.text_file.Text);
+                        break;
+                    default:
+                        text_2.Text = "请选择加密方式";
+                        break;
                 }
-                catch { text_2.Text = "密匙长度要求24位 或 密匙过于简单\r\n"; }
-                check_3desEncode.CheckState = CheckState.Unchecked;
+            }
+            else
+            {
+                switch(this.list_encrption.SelectedIndex)
+                {
+                    case 0: //BASE64
+                        try
+                        {
+                            string result;
+                            if (this.check_hex16_1.Checked)
+                                result = Convert.ToBase64String(this.dataTransfer1.hex16ToAscii2(text_1.Text));
+                            else if (this.check_hex10_1.Checked)
+                                result = Convert.ToBase64String(this.dataTransfer1.hex10ToAscii2(text_1.Text));
+                            else if (this.check_hex2_1.Checked)
+                                result = Convert.ToBase64String(this.dataTransfer1.hex2ToAscii2(text_1.Text));
+                            else
+                                result = Convert.ToBase64String(Encoding.UTF8.GetBytes(text_1.Text));
+                            //
+                            if (this.check_hex16_2.Checked)
+                                text_2.Text = this.dataTransfer2.asciiToHex16(result);
+                            else if (this.check_hex10_2.Checked)
+                                text_2.Text = this.dataTransfer2.asciiToHex10(result);
+                            else if (this.check_hex2_2.Checked)
+                                text_2.Text = this.dataTransfer2.asciiToHex2(result);
+                            else
+                                text_2.Text = result;
+                        }
+                        catch { text_2.Text = "enBase64 failed !\r\n"; }
+                        break;
+                    case 1: //AES
+                        try
+                        {
+                            string result;
+                            if (this.check_hex16_1.Checked)
+                                result = encryptList.AesEncryption(Encoding.ASCII.GetString(this.dataTransfer1.hex16ToAscii2(text_1.Text)), this.text_key.Text);
+                            else if (this.check_hex10_1.Checked)
+                                result = encryptList.AesEncryption(Encoding.ASCII.GetString(this.dataTransfer1.hex10ToAscii2(text_1.Text)), this.text_key.Text);
+                            else if (this.check_hex2_1.Checked)
+                                result = encryptList.AesEncryption(Encoding.ASCII.GetString(this.dataTransfer1.hex2ToAscii2(text_1.Text)), this.text_key.Text);
+                            else
+                                result = encryptList.AesEncryption(text_1.Text, this.text_key.Text);
+                            //
+                            if (this.check_hex16_2.Checked)
+                                text_2.Text = this.dataTransfer2.asciiToHex16(result);
+                            else if (this.check_hex10_2.Checked)
+                                text_2.Text = this.dataTransfer2.asciiToHex10(result);
+                            else if (this.check_hex2_2.Checked)
+                                text_2.Text = this.dataTransfer2.asciiToHex2(result);
+                            else
+                                text_2.Text = result;
+                        }
+                        catch { text_2.Text = "key len should be 16/24/32 bytes !\r\n"; }
+                        break;
+                    case 2: //DES
+                        try
+                        {
+                            string result;
+                            if (this.check_hex16_1.Checked)
+                                result = encryptList.DesEncryption(Encoding.ASCII.GetString(this.dataTransfer1.hex16ToAscii2(text_1.Text)), this.text_key.Text);
+                            else if (this.check_hex10_1.Checked)
+                                result = encryptList.DesEncryption(Encoding.ASCII.GetString(this.dataTransfer1.hex10ToAscii2(text_1.Text)), this.text_key.Text);
+                            else if (this.check_hex2_1.Checked)
+                                result = encryptList.DesEncryption(Encoding.ASCII.GetString(this.dataTransfer1.hex2ToAscii2(text_1.Text)), this.text_key.Text);
+                            else
+                                result = encryptList.DesEncryption(text_1.Text, this.text_key.Text);
+                            //
+                            if (this.check_hex16_2.Checked)
+                                text_2.Text = this.dataTransfer2.asciiToHex16(result);
+                            else if (this.check_hex10_2.Checked)
+                                text_2.Text = this.dataTransfer2.asciiToHex10(result);
+                            else if (this.check_hex2_2.Checked)
+                                text_2.Text = this.dataTransfer2.asciiToHex2(result);
+                            else
+                                text_2.Text = result;
+                        }
+                        catch { text_2.Text = "key len must be 8 bytes !\r\n"; ; }
+                        break;
+                    case 3: //DES3
+                        try
+                        {
+                            string result;
+                            if (this.check_hex16_1.Checked)
+                                result = encryptList.Des3Encryption(Encoding.ASCII.GetString(this.dataTransfer1.hex16ToAscii2(text_1.Text)), this.text_key.Text);
+                            else if (this.check_hex10_1.Checked)
+                                result = encryptList.Des3Encryption(Encoding.ASCII.GetString(this.dataTransfer1.hex10ToAscii2(text_1.Text)), this.text_key.Text);
+                            else if (this.check_hex2_1.Checked)
+                                result = encryptList.Des3Encryption(Encoding.ASCII.GetString(this.dataTransfer1.hex2ToAscii2(text_1.Text)), this.text_key.Text);
+                            else
+                                result = encryptList.Des3Encryption(text_1.Text, this.text_key.Text);
+                            //
+                            if (this.check_hex16_2.Checked)
+                                text_2.Text = this.dataTransfer2.asciiToHex16(result);
+                            else if (this.check_hex10_2.Checked)
+                                text_2.Text = this.dataTransfer2.asciiToHex10(result);
+                            else if (this.check_hex2_2.Checked)
+                                text_2.Text = this.dataTransfer2.asciiToHex2(result);
+                            else
+                                text_2.Text = result;
+                        }
+                        catch { text_2.Text = "密匙长度要求24位 或 密匙过于简单\r\n"; }
+                        break;
+                    case 4: //MD5
+                        text_2.Text = "";
+                        break;
+                    default:
+                        text_2.Text = "请选择加密方式";
+                        break;
+                }
             }
         }
 
-        private void check_3desDecode_CheckedChanged(object sender, EventArgs e)
+        private void button_de_Click(object sender, EventArgs e)
         {
-            if (check_3desDecode.CheckState == CheckState.Checked)
+            int ret = -1;
+            this.text_2.Text = "处理中 ...\r\n";
+            if (this.check_file.Checked && this.text_file.Text.Length > 0)
             {
-                try
+                switch (this.list_encrption.SelectedIndex)
                 {
-                    string result;
-                    if (this.check_hex16_1.Checked)
-                        result = encryptList.Des3Decryption(Encoding.ASCII.GetString(this.dataTransfer1.hex16ToAscii2(text_1.Text)), this.textKey.Text);
-                    else if (this.check_hex10_1.Checked)
-                        result = encryptList.Des3Decryption(Encoding.ASCII.GetString(this.dataTransfer1.hex10ToAscii2(text_1.Text)), this.textKey.Text);
-                    else if (this.check_hex2_1.Checked)
-                        result = encryptList.Des3Decryption(Encoding.ASCII.GetString(this.dataTransfer1.hex2ToAscii2(text_1.Text)), this.textKey.Text);
-                    else
-                        result = encryptList.Des3Decryption(text_1.Text, this.textKey.Text);
-                    //
-                    if (this.check_hex16_2.Checked)
-                        text_2.Text = this.dataTransfer2.asciiToHex16(result);
-                    else if (this.check_hex10_2.Checked)
-                        text_2.Text = this.dataTransfer2.asciiToHex10(result);
-                    else if (this.check_hex2_2.Checked)
-                        text_2.Text = this.dataTransfer2.asciiToHex2(result);
-                    else
-                        text_2.Text = result;
+                    case 0: //BASE64
+                        text_2.Text = "不支持 BASE64 处理文件\r\n";
+                        break;
+                    case 1: //AES
+                        ret = this.encryptList.AesEncryptionFile(this.text_file.Text, this.text_file.Text+".AesDecode.bin", this.text_key.Text, false);
+                        if(ret == 0)
+                            this.text_2.Text = this.text_file.Text + ".AesDecode.bin" + "\r\n";
+                        else if (ret == -2)
+                            this.text_2.Text = this.text_file.Text + " open failed\r\n";
+                        else
+                            this.text_2.Text = "aesDecode failed !\r\n";
+                        break;
+                    case 2: //DES
+                        ret = this.encryptList.DesEncryptionFile(this.text_file.Text, this.text_file.Text + ".DesDecode.bin", this.text_key.Text, false);
+                        if (ret == 0)
+                            this.text_2.Text = this.text_file.Text + ".DesDecode.bin" + "\r\n";
+                        else if (ret == -2)
+                            this.text_2.Text = this.text_file.Text + " open failed\r\n";
+                        else
+                            this.text_2.Text = "desDecode failed !\r\n";
+                        break;
+                    case 3: //DES3
+                        ret = this.encryptList.Des3EncryptionFile(this.text_file.Text, this.text_file.Text + ".Des3Decode.bin", this.text_key.Text, false);
+                        if (ret == 0)
+                            this.text_2.Text = this.text_file.Text + ".Des3Decode.bin" + "\r\n";
+                        else if (ret == -2)
+                            this.text_2.Text = this.text_file.Text + " open failed\r\n";
+                        else
+                            this.text_2.Text = "des3Decode failed !\r\n";
+                        break;
+                    case 4: //MD5
+                        this.text_2.Text = this.encryptList.Md5EncryptionFile(this.text_file.Text);
+                        break;
+                    default:
+                        text_2.Text = "请选择加密方式";
+                        break;
                 }
-                catch { text_2.Text = "3desDecode failed !\r\n"; }
-                check_3desDecode.CheckState = CheckState.Unchecked;
+            }
+            else
+            {
+                switch (this.list_encrption.SelectedIndex)
+                {
+                    case 0: //BASE64
+                        try
+                        {
+                            byte[] result;
+                            if (this.check_hex16_1.Checked)
+                                result = Convert.FromBase64String(Encoding.ASCII.GetString(this.dataTransfer1.hex16ToAscii2(text_1.Text)));
+                            else if (this.check_hex10_1.Checked)
+                                result = Convert.FromBase64String(Encoding.ASCII.GetString(this.dataTransfer1.hex10ToAscii2(text_1.Text)));
+                            else if (this.check_hex2_1.Checked)
+                                result = Convert.FromBase64String(Encoding.ASCII.GetString(this.dataTransfer1.hex2ToAscii2(text_1.Text)));
+                            else
+                                result = Convert.FromBase64String(text_1.Text);
+                            //
+                            if (this.check_hex16_2.Checked)
+                                text_2.Text = this.dataTransfer2.asciiToHex16_2(result);
+                            else if (this.check_hex10_2.Checked)
+                                text_2.Text = this.dataTransfer2.asciiToHex10_2(result);
+                            else if (this.check_hex2_2.Checked)
+                                text_2.Text = this.dataTransfer2.asciiToHex2_2(result);
+                            else
+                                text_2.Text = Encoding.ASCII.GetString(result);
+                        }
+                        catch { text_2.Text = "deBase64 failed !\r\n"; }
+                        break;
+                    case 1: //AES
+                        try
+                        {
+                            string result;
+                            if (this.check_hex16_1.Checked)
+                                result = encryptList.AesDecryption(Encoding.ASCII.GetString(this.dataTransfer1.hex16ToAscii2(text_1.Text)), this.text_key.Text);
+                            else if (this.check_hex10_1.Checked)
+                                result = encryptList.AesDecryption(Encoding.ASCII.GetString(this.dataTransfer1.hex10ToAscii2(text_1.Text)), this.text_key.Text);
+                            else if (this.check_hex2_1.Checked)
+                                result = encryptList.AesDecryption(Encoding.ASCII.GetString(this.dataTransfer1.hex2ToAscii2(text_1.Text)), this.text_key.Text);
+                            else
+                                result = encryptList.AesDecryption(text_1.Text, this.text_key.Text);
+                            //
+                            if (this.check_hex16_2.Checked)
+                                text_2.Text = this.dataTransfer2.asciiToHex16(result);
+                            else if (this.check_hex10_2.Checked)
+                                text_2.Text = this.dataTransfer2.asciiToHex10(result);
+                            else if (this.check_hex2_2.Checked)
+                                text_2.Text = this.dataTransfer2.asciiToHex2(result);
+                            else
+                                text_2.Text = result;
+                        }
+                        catch { text_2.Text = "aesDecode failed !\r\n"; }
+                        break;
+                    case 2: //DES
+                        try
+                        {
+                            string result;
+                            if (this.check_hex16_1.Checked)
+                                result = encryptList.DesDecryption(Encoding.ASCII.GetString(this.dataTransfer1.hex16ToAscii2(text_1.Text)), this.text_key.Text);
+                            else if (this.check_hex10_1.Checked)
+                                result = encryptList.DesDecryption(Encoding.ASCII.GetString(this.dataTransfer1.hex10ToAscii2(text_1.Text)), this.text_key.Text);
+                            else if (this.check_hex2_1.Checked)
+                                result = encryptList.DesDecryption(Encoding.ASCII.GetString(this.dataTransfer1.hex2ToAscii2(text_1.Text)), this.text_key.Text);
+                            else
+                                result = encryptList.DesDecryption(text_1.Text, this.text_key.Text);
+                            //
+                            if (this.check_hex16_2.Checked)
+                                text_2.Text = this.dataTransfer2.asciiToHex16(result);
+                            else if (this.check_hex10_2.Checked)
+                                text_2.Text = this.dataTransfer2.asciiToHex10(result);
+                            else if (this.check_hex2_2.Checked)
+                                text_2.Text = this.dataTransfer2.asciiToHex2(result);
+                            else
+                                text_2.Text = result;
+                        }
+                        catch { text_2.Text = "desDecode failed !\r\n"; }
+                        break;
+                    case 3: //DES3
+                        try
+                        {
+                            string result;
+                            if (this.check_hex16_1.Checked)
+                                result = encryptList.Des3Decryption(Encoding.ASCII.GetString(this.dataTransfer1.hex16ToAscii2(text_1.Text)), this.text_key.Text);
+                            else if (this.check_hex10_1.Checked)
+                                result = encryptList.Des3Decryption(Encoding.ASCII.GetString(this.dataTransfer1.hex10ToAscii2(text_1.Text)), this.text_key.Text);
+                            else if (this.check_hex2_1.Checked)
+                                result = encryptList.Des3Decryption(Encoding.ASCII.GetString(this.dataTransfer1.hex2ToAscii2(text_1.Text)), this.text_key.Text);
+                            else
+                                result = encryptList.Des3Decryption(text_1.Text, this.text_key.Text);
+                            //
+                            if (this.check_hex16_2.Checked)
+                                text_2.Text = this.dataTransfer2.asciiToHex16(result);
+                            else if (this.check_hex10_2.Checked)
+                                text_2.Text = this.dataTransfer2.asciiToHex10(result);
+                            else if (this.check_hex2_2.Checked)
+                                text_2.Text = this.dataTransfer2.asciiToHex2(result);
+                            else
+                                text_2.Text = result;
+                        }
+                        catch { text_2.Text = "3desDecode failed !\r\n"; }
+                        break;
+                    case 4: //MD5
+                        text_2.Text = "";
+                        break;
+                    default:
+                        text_2.Text = "请选择加密方式";
+                        break;
+                }
             }
         }
 
-        private void check_enbase64_CheckedChanged(object sender, EventArgs e)
+        private void check_file_CheckedChanged(object sender, EventArgs e)
         {
-            if (check_enbase64.CheckState == CheckState.Checked)
+            if (this.check_file.CheckState == CheckState.Checked)
             {
-                try
+                OpenFileDialog openfiledialig = new OpenFileDialog();
+                if (openfiledialig.ShowDialog() == DialogResult.OK)
                 {
-                    string result;
-                    if (this.check_hex16_1.Checked)
-                        result = Convert.ToBase64String(this.dataTransfer1.hex16ToAscii2(text_1.Text));
-                    else if (this.check_hex10_1.Checked)
-                        result = Convert.ToBase64String(this.dataTransfer1.hex10ToAscii2(text_1.Text));
-                    else if (this.check_hex2_1.Checked)
-                        result = Convert.ToBase64String(this.dataTransfer1.hex2ToAscii2(text_1.Text));
-                    else
-                        result = Convert.ToBase64String(Encoding.UTF8.GetBytes(text_1.Text));
-                    //
-                    if (this.check_hex16_2.Checked)
-                        text_2.Text = this.dataTransfer2.asciiToHex16(result);
-                    else if (this.check_hex10_2.Checked)
-                        text_2.Text = this.dataTransfer2.asciiToHex10(result);
-                    else if (this.check_hex2_2.Checked)
-                        text_2.Text = this.dataTransfer2.asciiToHex2(result);
-                    else
-                        text_2.Text = result;
+                    this.text_file.Text = openfiledialig.FileName;
                 }
-                catch { text_2.Text = "enBase64 failed !\r\n"; }
-                check_enbase64.CheckState = CheckState.Unchecked;
+                else
+                    this.check_file.Checked = false;
             }
         }
 
-        private void check_debase64_CheckedChanged(object sender, EventArgs e)
+        private void text_1_KeyDown(object sender, KeyEventArgs e)
         {
-            if (check_debase64.CheckState == CheckState.Checked)
-            {
-                try
-                {
-                    byte[] result;
-                    if (this.check_hex16_1.Checked)
-                        result = Convert.FromBase64String(Encoding.ASCII.GetString(this.dataTransfer1.hex16ToAscii2(text_1.Text)));
-                    else if (this.check_hex10_1.Checked)
-                        result = Convert.FromBase64String(Encoding.ASCII.GetString(this.dataTransfer1.hex10ToAscii2(text_1.Text)));
-                    else if (this.check_hex2_1.Checked)
-                        result = Convert.FromBase64String(Encoding.ASCII.GetString(this.dataTransfer1.hex2ToAscii2(text_1.Text)));
-                    else
-                        result = Convert.FromBase64String(text_1.Text);
-                    //
-                    if (this.check_hex16_2.Checked)
-                        text_2.Text = this.dataTransfer2.asciiToHex16_2(result);
-                    else if (this.check_hex10_2.Checked)
-                        text_2.Text = this.dataTransfer2.asciiToHex10_2(result);
-                    else if (this.check_hex2_2.Checked)
-                        text_2.Text = this.dataTransfer2.asciiToHex2_2(result);
-                    else
-                        text_2.Text = Encoding.ASCII.GetString(result);
-                }
-                catch { text_2.Text = "deBase64 failed !\r\n"; }
-                check_debase64.CheckState = CheckState.Unchecked;
-            }
+            if (e.Control && e.KeyCode == Keys.A)
+                this.text_1.SelectAll();
         }
 
-        private void check_aesEncode_CheckedChanged(object sender, EventArgs e)
+        private void text_2_KeyDown(object sender, KeyEventArgs e)
         {
-            if (check_aesEncode.CheckState == CheckState.Checked)
-            {
-                try
-                {
-                    string result;
-                    if (this.check_hex16_1.Checked)
-                        result = encryptList.AesEncryption(Encoding.ASCII.GetString(this.dataTransfer1.hex16ToAscii2(text_1.Text)), this.textKey.Text);
-                    else if (this.check_hex10_1.Checked)
-                        result = encryptList.AesEncryption(Encoding.ASCII.GetString(this.dataTransfer1.hex10ToAscii2(text_1.Text)), this.textKey.Text);
-                    else if (this.check_hex2_1.Checked)
-                        result = encryptList.AesEncryption(Encoding.ASCII.GetString(this.dataTransfer1.hex2ToAscii2(text_1.Text)), this.textKey.Text);
-                    else
-                        result = encryptList.AesEncryption(text_1.Text, this.textKey.Text);
-                    //
-                    if (this.check_hex16_2.Checked)
-                        text_2.Text = this.dataTransfer2.asciiToHex16(result);
-                    else if (this.check_hex10_2.Checked)
-                        text_2.Text = this.dataTransfer2.asciiToHex10(result);
-                    else if (this.check_hex2_2.Checked)
-                        text_2.Text = this.dataTransfer2.asciiToHex2(result);
-                    else
-                        text_2.Text = result;
-                }
-                catch { text_2.Text = "key len should be 16/24/32 bytes !\r\n"; }
-                check_aesEncode.CheckState = CheckState.Unchecked;
-            }
+            if (e.Control && e.KeyCode == Keys.A)
+                this.text_2.SelectAll();
         }
 
-        private void check_aesDecode_CheckedChanged(object sender, EventArgs e)
+        private void text_file_KeyDown(object sender, KeyEventArgs e)
         {
-            if (check_aesDecode.CheckState == CheckState.Checked)
-            {
-                try
-                {
-                    string result;
-                    if (this.check_hex16_1.Checked)
-                        result = encryptList.AesDecryption(Encoding.ASCII.GetString(this.dataTransfer1.hex16ToAscii2(text_1.Text)), this.textKey.Text);
-                    else if (this.check_hex10_1.Checked)
-                        result = encryptList.AesDecryption(Encoding.ASCII.GetString(this.dataTransfer1.hex10ToAscii2(text_1.Text)), this.textKey.Text);
-                    else if (this.check_hex2_1.Checked)
-                        result = encryptList.AesDecryption(Encoding.ASCII.GetString(this.dataTransfer1.hex2ToAscii2(text_1.Text)), this.textKey.Text);
-                    else
-                        result = encryptList.AesDecryption(text_1.Text, this.textKey.Text);
-                    //
-                    if (this.check_hex16_2.Checked)
-                        text_2.Text = this.dataTransfer2.asciiToHex16(result);
-                    else if (this.check_hex10_2.Checked)
-                        text_2.Text = this.dataTransfer2.asciiToHex10(result);
-                    else if (this.check_hex2_2.Checked)
-                        text_2.Text = this.dataTransfer2.asciiToHex2(result);
-                    else
-                        text_2.Text = result;
-                }
-                catch { text_2.Text = "aesDecode failed !\r\n"; }
-                check_aesDecode.CheckState = CheckState.Unchecked;
-            }
+            if (e.Control && e.KeyCode == Keys.A)
+                this.text_file.SelectAll();
         }
 
-        private void check_desEncode_CheckedChanged(object sender, EventArgs e)
+        private void list_encrption_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (check_desEncode.CheckState == CheckState.Checked)
+            if (this.list_encrption.SelectedIndex < 0)
             {
-                try
-                {
-                    string result;
-                    if (this.check_hex16_1.Checked)
-                        result = encryptList.DesEncryption(Encoding.ASCII.GetString(this.dataTransfer1.hex16ToAscii2(text_1.Text)), this.textKey.Text);
-                    else if (this.check_hex10_1.Checked)
-                        result = encryptList.DesEncryption(Encoding.ASCII.GetString(this.dataTransfer1.hex10ToAscii2(text_1.Text)), this.textKey.Text);
-                    else if (this.check_hex2_1.Checked)
-                        result = encryptList.DesEncryption(Encoding.ASCII.GetString(this.dataTransfer1.hex2ToAscii2(text_1.Text)), this.textKey.Text);
-                    else
-                        result = encryptList.DesEncryption(text_1.Text, this.textKey.Text);
-                    //
-                    if (this.check_hex16_2.Checked)
-                        text_2.Text = this.dataTransfer2.asciiToHex16(result);
-                    else if (this.check_hex10_2.Checked)
-                        text_2.Text = this.dataTransfer2.asciiToHex10(result);
-                    else if (this.check_hex2_2.Checked)
-                        text_2.Text = this.dataTransfer2.asciiToHex2(result);
-                    else
-                        text_2.Text = result;
-                }
-                catch { text_2.Text = "key len must be 8 bytes !\r\n"; ; }
-                check_desEncode.CheckState = CheckState.Unchecked;
+                this.button_en.Enabled = this.button_de.Enabled = false;
             }
-        }
-
-        private void check_desDecode_CheckedChanged(object sender, EventArgs e)
-        {
-            if (check_desDecode.CheckState == CheckState.Checked)
+            else if (this.list_encrption.SelectedIndex == 4)
             {
-                try
-                {
-                    string result;
-                    if (this.check_hex16_1.Checked)
-                        result = encryptList.DesDecryption(Encoding.ASCII.GetString(this.dataTransfer1.hex16ToAscii2(text_1.Text)), this.textKey.Text);
-                    else if (this.check_hex10_1.Checked)
-                        result = encryptList.DesDecryption(Encoding.ASCII.GetString(this.dataTransfer1.hex10ToAscii2(text_1.Text)), this.textKey.Text);
-                    else if (this.check_hex2_1.Checked)
-                        result = encryptList.DesDecryption(Encoding.ASCII.GetString(this.dataTransfer1.hex2ToAscii2(text_1.Text)), this.textKey.Text);
-                    else
-                        result = encryptList.DesDecryption(text_1.Text, this.textKey.Text);
-                    //
-                    if (this.check_hex16_2.Checked)
-                        text_2.Text = this.dataTransfer2.asciiToHex16(result);
-                    else if (this.check_hex10_2.Checked)
-                        text_2.Text = this.dataTransfer2.asciiToHex10(result);
-                    else if (this.check_hex2_2.Checked)
-                        text_2.Text = this.dataTransfer2.asciiToHex2(result);
-                    else
-                        text_2.Text = result;
-                }
-                catch { text_2.Text = "desDecode failed !\r\n"; }
-                check_desDecode.CheckState = CheckState.Unchecked;
+                this.button_en.Enabled = true;
+                this.button_de.Enabled = false;
+            }
+            else
+            {
+                this.button_en.Enabled = this.button_de.Enabled = true;
             }
         }
 
