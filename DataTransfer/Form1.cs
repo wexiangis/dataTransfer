@@ -237,6 +237,8 @@ namespace DataTransfer
         {
             int ret = -1;
             this.text_2.Text = "处理中 ...\r\n";
+            this.Cursor = System.Windows.Forms.Cursors.WaitCursor;//鼠标为忙碌状态
+
             if(this.check_file.Checked && this.text_file.Text.Length > 0)
             {
                 switch (this.list_encrption.SelectedIndex)
@@ -387,12 +389,15 @@ namespace DataTransfer
                         break;
                 }
             }
+            this.Cursor = System.Windows.Forms.Cursors.Arrow;//设置鼠标为正常状态
         }
 
         private void button_de_Click(object sender, EventArgs e)
         {
             int ret = -1;
             this.text_2.Text = "处理中 ...\r\n";
+            this.Cursor = System.Windows.Forms.Cursors.WaitCursor;//鼠标为忙碌状态
+
             if (this.check_file.Checked && this.text_file.Text.Length > 0)
             {
                 switch (this.list_encrption.SelectedIndex)
@@ -543,6 +548,7 @@ namespace DataTransfer
                         break;
                 }
             }
+            this.Cursor = System.Windows.Forms.Cursors.Arrow;//设置鼠标为正常状态
         }
 
         private void check_file_CheckedChanged(object sender, EventArgs e)
