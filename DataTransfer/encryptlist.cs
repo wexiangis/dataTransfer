@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 using System.Collections.Generic;
 
@@ -21,10 +21,6 @@ namespace DataTransfer
     class EncryptList
 
     {
-
-        private static readonly byte[] Aes_Tail = new byte[16] { 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16};// AES解密时先给解密数据加上这条尾巴,否则解密失败 !
-
-        private static readonly byte[] Des_Tail = new byte[8] { 8, 8, 8, 8, 8, 8, 8, 8};
 
         /// <summary>
 
@@ -178,13 +174,15 @@ namespace DataTransfer
 
             int len = 1024 * 1024;    // 每次 "读-解密-写" 1M数据
 
-            byte[] des_tail = Des3Encryption(Des_Tail, key);
+            byte[] des_tail = Des3Encryption(new byte[0], key);
 
             byte[] read_byte;
 
-            byte[] dpt_byte;
+            byte[] dpt_byte = null;
 
             int ret = len;
+
+            int rC = 0, rCL = 0, len2 = 0;
 
             try
 
@@ -192,51 +190,37 @@ namespace DataTransfer
 
                 System.IO.FileInfo fileInfo = new System.IO.FileInfo(filePath);
 
-                if(fileInfo.Length < 8)
-
-                    len = 8;
-
-                else if(fileInfo.Length < len)
-
-                    len = (int)(fileInfo.Length - fileInfo.Length % 8);
-
-                //
-
-                ret = len;
-
-                if(!isEncrypt){
-
-                    read_byte = new byte[len + des_tail.Length];
-
-                    Buffer.BlockCopy(des_tail, 0, read_byte, len, des_tail.Length);   //1M数据缓冲区 加尾巴
-
-                }else
-
-                    read_byte = new byte[len];
-
-                //
-
-                FileStream write_fileStream = new FileStream(ditPath, FileMode.Create, FileAccess.Write);
-
-                FileStream read_fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read);
-
-                while (ret == len)
+                if (isEncrypt)
 
                 {
 
-                    //读数据
+                    if(fileInfo.Length < len)
 
-                    ret = read_fileStream.Read(read_byte, 0, len);
+                        len = (int)(fileInfo.Length);
 
-                    if (isEncrypt)
+                    //
+
+                    read_byte = new byte[len];
+
+                }
+
+                else
+
+                {
+
+                    if(fileInfo.Length%8 != 0)
+
+                        return -1;
+
+                    //
+
+                    if(fileInfo.Length%len == 0)
 
                     {
 
-                        dpt_byte = this.Des3Encryption(read_byte, key);
+                        rCL = (int)(fileInfo.Length/len - 1);
 
-                        if (dpt_byte == null)
-
-                            return -1;  //"err"
+                        len2 = len;
 
                     }
 
@@ -244,25 +228,153 @@ namespace DataTransfer
 
                     {
 
-                        //解密数据
+                        rCL = (int)(fileInfo.Length/len);
+
+                        len2 = (int)(fileInfo.Length%len);
+
+                    }
+
+                    //
+
+                    read_byte = new byte[len + des_tail.Length];
+
+                    Buffer.BlockCopy(des_tail, 0, read_byte, len, des_tail.Length);   //1M数据缓冲区 加尾巴
+
+                }
+
+                //
+
+                ret = len;
+
+                //
+
+                FileStream write_fileStream = new FileStream(ditPath, FileMode.Create, FileAccess.Write);
+
+                FileStream read_fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read);
+
+                if (isEncrypt)
+
+                {
+
+                    while (ret == len)
+
+                    {
+
+                        //读数据
+
+                        ret = read_fileStream.Read(read_byte, 0, len);
+
+                        //
 
                         if (ret == len)
 
+                            dpt_byte = this.Des3Encryption(read_byte, key);
+
+                        else if(ret < len && ret > 0)
+
                         {
 
-                            dpt_byte = this.Des3Decryption(read_byte, key);
+                            byte[] temp_byte = new byte[ret];
 
-                            if (dpt_byte == null)
+                            Buffer.BlockCopy(read_byte, 0, temp_byte, 0, ret);
 
-                                return -1;  //"err"
+                            dpt_byte = this.Des3Encryption(temp_byte, key);
 
                         }
 
                         else
 
+                            break;
+
+                        //
+
+                        if (dpt_byte == null)
+
+                            break;  //"err"
+
+                        //写数据
+
+                        write_fileStream.Write(dpt_byte, 0, dpt_byte.Length);
+
+                    }
+
+                }
+
+                else
+
+                {
+
+                    while (rC < rCL)
+
+                    {
+
+                        //读数据
+
+                        ret = read_fileStream.Read(read_byte, 0, len);
+
+                        //
+
+                        if(ret == len)
+
                         {
 
-                            byte[] temp_byte = new byte[ret + des_tail.Length];
+                            rC += 1;
+
+                            //解密数据
+
+                            dpt_byte = this.Des3Decryption(read_byte, key);
+
+                            //
+
+                            if (dpt_byte == null)
+
+                                break;  //"err"
+
+                            //写数据
+
+                            write_fileStream.Write(dpt_byte, 0, ret);
+
+                        }
+
+                        else
+
+                            break;
+
+                    }
+
+                }
+
+                //
+
+                if(len2 > 0)
+
+                {
+
+                    ret = read_fileStream.Read(read_byte, 0, len2);
+
+                    //解密
+
+                    if(ret > 0 && ret%8 == 0)
+
+                    {
+
+                        //自带尾巴?
+
+                        byte[] temp_byte = new byte[ret];
+
+                        Buffer.BlockCopy(read_byte, 0, temp_byte, 0, ret);
+
+                        dpt_byte = this.Des3Decryption(temp_byte, key);
+
+                        //
+
+                        if(dpt_byte == null)
+
+                        {
+
+                            //补上尾巴 再次尝试
+
+                            temp_byte = new byte[ret+des_tail.Length];
 
                             Buffer.BlockCopy(read_byte, 0, temp_byte, 0, ret);
 
@@ -270,31 +382,19 @@ namespace DataTransfer
 
                             dpt_byte = this.Des3Decryption(temp_byte, key);
 
-                            if (dpt_byte == null)
-
-                                return -1;  //"err"
-
                         }
 
-                    }
+                        //
 
-                    //写数据
-
-                    if (dpt_byte != null)
-
-                    {
-
-                        if(dpt_byte.Length > ret)
-
-                            write_fileStream.Write(dpt_byte, 0, ret);
-
-                        else
+                        if (dpt_byte != null)
 
                             write_fileStream.Write(dpt_byte, 0, dpt_byte.Length);
 
                     }
 
                 }
+
+                //
 
                 read_fileStream.Close();
 
@@ -466,13 +566,15 @@ namespace DataTransfer
 
             int len = 1024 * 1024;    // 每次 "读-解密-写" 1M数据
 
-            byte[] des_tail = DesEncryption(Des_Tail, key);
+            byte[] des_tail = DesEncryption(new byte[0], key);
 
             byte[] read_byte;
 
-            byte[] dpt_byte;
+            byte[] dpt_byte = null;
 
             int ret = len;
+
+            int rC = 0, rCL = 0, len2 = 0;
 
             try
 
@@ -480,51 +582,37 @@ namespace DataTransfer
 
                 System.IO.FileInfo fileInfo = new System.IO.FileInfo(filePath);
 
-                if(fileInfo.Length < 8)
-
-                    len = 8;
-
-                else if(fileInfo.Length < len)
-
-                    len = (int)(fileInfo.Length - fileInfo.Length % 8);
-
-                //
-
-                ret = len;
-
-                if(!isEncrypt){
-
-                    read_byte = new byte[len + des_tail.Length];
-
-                    Buffer.BlockCopy(des_tail, 0, read_byte, len, des_tail.Length);   //1M数据缓冲区 加尾巴
-
-                }else
-
-                    read_byte = new byte[len];
-
-                //
-
-                FileStream write_fileStream = new FileStream(ditPath, FileMode.Create, FileAccess.Write);
-
-                FileStream read_fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read);
-
-                while (ret == len)
+                if (isEncrypt)
 
                 {
 
-                    //读数据
+                    if(fileInfo.Length < len)
 
-                    ret = read_fileStream.Read(read_byte, 0, len);
+                        len = (int)(fileInfo.Length);
 
-                    if (isEncrypt)
+                    //
+
+                    read_byte = new byte[len];
+
+                }
+
+                else
+
+                {
+
+                    if(fileInfo.Length%8 != 0)
+
+                        return -1;
+
+                    //
+
+                    if(fileInfo.Length%len == 0)
 
                     {
 
-                        dpt_byte = this.DesEncryption(read_byte, key);
+                        rCL = (int)(fileInfo.Length/len - 1);
 
-                        if (dpt_byte == null)
-
-                            return -1;  //"err"
+                        len2 = len;
 
                     }
 
@@ -532,25 +620,153 @@ namespace DataTransfer
 
                     {
 
-                        //解密数据
+                        rCL = (int)(fileInfo.Length/len);
+
+                        len2 = (int)(fileInfo.Length%len);
+
+                    }
+
+                    //
+
+                    read_byte = new byte[len + des_tail.Length];
+
+                    Buffer.BlockCopy(des_tail, 0, read_byte, len, des_tail.Length);   //1M数据缓冲区 加尾巴
+
+                }
+
+                //
+
+                ret = len;
+
+                //
+
+                FileStream write_fileStream = new FileStream(ditPath, FileMode.Create, FileAccess.Write);
+
+                FileStream read_fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read);
+
+                if (isEncrypt)
+
+                {
+
+                    while (ret == len)
+
+                    {
+
+                        //读数据
+
+                        ret = read_fileStream.Read(read_byte, 0, len);
+
+                        //
 
                         if (ret == len)
 
+                            dpt_byte = this.DesEncryption(read_byte, key);
+
+                        else if(ret < len && ret > 0)
+
                         {
 
-                            dpt_byte = this.DesDecryption(read_byte, key);
+                            byte[] temp_byte = new byte[ret];
 
-                            if (dpt_byte == null)
+                            Buffer.BlockCopy(read_byte, 0, temp_byte, 0, ret);
 
-                                return -1;  //"err"
+                            dpt_byte = this.DesEncryption(temp_byte, key);
 
                         }
 
                         else
 
+                            break;
+
+                        //
+
+                        if (dpt_byte == null)
+
+                            break;  //"err"
+
+                        //写数据
+
+                        write_fileStream.Write(dpt_byte, 0, dpt_byte.Length);
+
+                    }
+
+                }
+
+                else
+
+                {
+
+                    while (rC < rCL)
+
+                    {
+
+                        //读数据
+
+                        ret = read_fileStream.Read(read_byte, 0, len);
+
+                        //
+
+                        if(ret == len)
+
                         {
 
-                            byte[] temp_byte = new byte[ret + des_tail.Length];
+                            rC += 1;
+
+                            //解密数据
+
+                            dpt_byte = this.DesDecryption(read_byte, key);
+
+                            //
+
+                            if (dpt_byte == null)
+
+                                break;  //"err"
+
+                            //写数据
+
+                            write_fileStream.Write(dpt_byte, 0, ret);
+
+                        }
+
+                        else
+
+                            break;
+
+                    }
+
+                }
+
+                //
+
+                if(len2 > 0)
+
+                {
+
+                    ret = read_fileStream.Read(read_byte, 0, len2);
+
+                    //解密
+
+                    if(ret > 0 && ret%8 == 0)
+
+                    {
+
+                        //自带尾巴?
+
+                        byte[] temp_byte = new byte[ret];
+
+                        Buffer.BlockCopy(read_byte, 0, temp_byte, 0, ret);
+
+                        dpt_byte = this.DesDecryption(temp_byte, key);
+
+                        //
+
+                        if(dpt_byte == null)
+
+                        {
+
+                            //补上尾巴 再次尝试
+
+                            temp_byte = new byte[ret+des_tail.Length];
 
                             Buffer.BlockCopy(read_byte, 0, temp_byte, 0, ret);
 
@@ -558,31 +774,19 @@ namespace DataTransfer
 
                             dpt_byte = this.DesDecryption(temp_byte, key);
 
-                            if (dpt_byte == null)
-
-                                return -1;  //"err"
-
                         }
 
-                    }
+                        //
 
-                    //写数据
-
-                    if (dpt_byte != null)
-
-                    {
-
-                        if(dpt_byte.Length > ret)
-
-                            write_fileStream.Write(dpt_byte, 0, ret);
-
-                        else
+                        if (dpt_byte != null)
 
                             write_fileStream.Write(dpt_byte, 0, dpt_byte.Length);
 
                     }
 
                 }
+
+                //
 
                 read_fileStream.Close();
 
@@ -750,13 +954,15 @@ namespace DataTransfer
 
             int len = 1024 * 1024;    // 每次 "读-解密-写" 1M数据
 
-            byte[] aes_tail = AesEncryption(Aes_Tail, key);
+            byte[] aes_tail = AesEncryption(new byte[0], key);
 
             byte[] read_byte;
 
-            byte[] dpt_byte;
+            byte[] dpt_byte = null;
 
             int ret = len;
+
+            int rC = 0, rCL = 0, len2 = 0;
 
             try
 
@@ -764,51 +970,37 @@ namespace DataTransfer
 
                 System.IO.FileInfo fileInfo = new System.IO.FileInfo(filePath);
 
-                if(fileInfo.Length < 8)
-
-                    len = 8;
-
-                else if(fileInfo.Length < len)
-
-                    len = (int)(fileInfo.Length - fileInfo.Length % 8);
-
-                //
-
-                ret = len;
-
-                if(!isEncrypt){
-
-                    read_byte = new byte[len + aes_tail.Length];
-
-                    Buffer.BlockCopy(aes_tail, 0, read_byte, len, aes_tail.Length);   //1M数据缓冲区 加尾巴
-
-                }else
-
-                    read_byte = new byte[len];
-
-                //
-
-                FileStream write_fileStream = new FileStream(ditPath, FileMode.Create, FileAccess.Write);
-
-                FileStream read_fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read);
-
-                while (ret == len)
+                if (isEncrypt)
 
                 {
 
-                    //读数据
+                    if(fileInfo.Length < len)
 
-                    ret = read_fileStream.Read(read_byte, 0, len);
+                        len = (int)(fileInfo.Length);
 
-                    if (isEncrypt)
+                    //
+
+                    read_byte = new byte[len];
+
+                }
+
+                else
+
+                {
+
+                    if(fileInfo.Length%16 != 0)
+
+                        return -1;
+
+                    //
+
+                    if(fileInfo.Length%len == 0)
 
                     {
 
-                        dpt_byte = this.AesEncryption(read_byte, key);
+                        rCL = (int)(fileInfo.Length/len - 1);
 
-                        if (dpt_byte == null)
-
-                            return -1;  //"err"
+                        len2 = len;
 
                     }
 
@@ -816,25 +1008,153 @@ namespace DataTransfer
 
                     {
 
-                        //解密数据
+                        rCL = (int)(fileInfo.Length/len);
+
+                        len2 = (int)(fileInfo.Length%len);
+
+                    }
+
+                    //
+
+                    read_byte = new byte[len + aes_tail.Length];
+
+                    Buffer.BlockCopy(aes_tail, 0, read_byte, len, aes_tail.Length);   //1M数据缓冲区 加尾巴
+
+                }
+
+                //
+
+                ret = len;
+
+                //
+
+                FileStream write_fileStream = new FileStream(ditPath, FileMode.Create, FileAccess.Write);
+
+                FileStream read_fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read);
+
+                if (isEncrypt)
+
+                {
+
+                    while (ret == len)
+
+                    {
+
+                        //读数据
+
+                        ret = read_fileStream.Read(read_byte, 0, len);
+
+                        //
 
                         if (ret == len)
 
+                            dpt_byte = this.AesEncryption(read_byte, key);
+
+                        else if(ret < len && ret > 0)
+
                         {
 
-                            dpt_byte = this.AesDecryption(read_byte, key);
+                            byte[] temp_byte = new byte[ret];
 
-                            if (dpt_byte == null)
+                            Buffer.BlockCopy(read_byte, 0, temp_byte, 0, ret);
 
-                                return -1;  //"err"
+                            dpt_byte = this.AesEncryption(temp_byte, key);
 
                         }
 
                         else
 
+                            break;
+
+                        //
+
+                        if (dpt_byte == null)
+
+                            break;  //"err"
+
+                        //写数据
+
+                        write_fileStream.Write(dpt_byte, 0, dpt_byte.Length);
+
+                    }
+
+                }
+
+                else
+
+                {
+
+                    while (rC < rCL)
+
+                    {
+
+                        //读数据
+
+                        ret = read_fileStream.Read(read_byte, 0, len);
+
+                        //
+
+                        if(ret == len)
+
                         {
 
-                            byte[] temp_byte = new byte[ret + aes_tail.Length];
+                            rC += 1;
+
+                            //解密数据
+
+                            dpt_byte = this.AesDecryption(read_byte, key);
+
+                            //
+
+                            if (dpt_byte == null)
+
+                                break;  //"err"
+
+                            //写数据
+
+                            write_fileStream.Write(dpt_byte, 0, ret);
+
+                        }
+
+                        else
+
+                            break;
+
+                    }
+
+                }
+
+                //
+
+                if(len2 > 0)
+
+                {
+
+                    ret = read_fileStream.Read(read_byte, 0, len2);
+
+                    //解密
+
+                    if(ret > 0 && ret%16 == 0)
+
+                    {
+
+                        //自带尾巴?
+
+                        byte[] temp_byte = new byte[ret];
+
+                        Buffer.BlockCopy(read_byte, 0, temp_byte, 0, ret);
+
+                        dpt_byte = this.AesDecryption(temp_byte, key);
+
+                        //
+
+                        if(dpt_byte == null)
+
+                        {
+
+                            //补上尾巴 再次尝试
+
+                            temp_byte = new byte[ret+aes_tail.Length];
 
                             Buffer.BlockCopy(read_byte, 0, temp_byte, 0, ret);
 
@@ -842,31 +1162,19 @@ namespace DataTransfer
 
                             dpt_byte = this.AesDecryption(temp_byte, key);
 
-                            if (dpt_byte == null)
-
-                                return -1;  //"err"
-
                         }
 
-                    }
+                        //
 
-                    //写数据
-
-                    if (dpt_byte != null)
-
-                    {
-
-                        if(dpt_byte.Length > ret)
-
-                            write_fileStream.Write(dpt_byte, 0, ret);
-
-                        else
+                        if (dpt_byte != null)
 
                             write_fileStream.Write(dpt_byte, 0, dpt_byte.Length);
 
                     }
 
                 }
+
+                //
 
                 read_fileStream.Close();
 
@@ -943,3 +1251,4 @@ namespace DataTransfer
     }
 
 }
+
