@@ -6,4 +6,3 @@ E:\process\VS2013\dataTransfer\DataTransfer\bin\Debug\DataTransfer.exe.config
 E:\process\VS2013\dataTransfer\DataTransfer\bin\Debug\DataTransfer.exe
 E:\process\VS2013\dataTransfer\DataTransfer\bin\Debug\DataTransfer.pdb
 E:\process\VS2013\dataTransfer\DataTransfer\obj\Debug\DataTransfer.exe
-E:\process\VS2013\dataTransfer\DataTransfer\obj\Debug\DataTransfer.csprojResolveAssemblyReference.cache

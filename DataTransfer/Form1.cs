@@ -19,15 +19,12 @@ using System.Windows.Forms;
 
 
 namespace DataTransfer
-
 {
 
     public partial class main_menu : Form
-
     {
 
         public void checkBox1Flash()
-
         {
 
             check_ascii_1.CheckState = dataTransfer1.getAscii() == true ? CheckState.Checked : CheckState.Unchecked;
@@ -43,7 +40,6 @@ namespace DataTransfer
         }
 
         public void checkBox2Flash()
-
         {
 
             check_ascii_2.CheckState = dataTransfer2.getAscii() == true ? CheckState.Checked : CheckState.Unchecked;
@@ -57,11 +53,9 @@ namespace DataTransfer
         }
 
         public void textSwitch1(string input)
-
         {
 
             if (dataTransfer1.getAscii())
-
             {
 
                 if (dataTransfer2.getHex16())
@@ -83,7 +77,6 @@ namespace DataTransfer
             }
 
             else if (dataTransfer1.getHex16())
-
             {
 
                 if (dataTransfer2.getAscii())
@@ -105,7 +98,6 @@ namespace DataTransfer
             }
 
             else if (dataTransfer1.getHex10())
-
             {
 
                 if (dataTransfer2.getAscii())
@@ -127,7 +119,6 @@ namespace DataTransfer
             }
 
             else if (dataTransfer1.getHex2())
-
             {
 
                 if (dataTransfer2.getAscii())
@@ -146,18 +137,17 @@ namespace DataTransfer
 
                     text_2.Text = input;
 
-            }else
+            }
+            else
 
                 text_2.Text = "未指定转换类型";
 
         }
 
         public void textSwitch2(string input)
-
         {
 
             if (dataTransfer2.getAscii())
-
             {
 
                 if (dataTransfer1.getHex16())
@@ -179,7 +169,6 @@ namespace DataTransfer
             }
 
             else if (dataTransfer2.getHex16())
-
             {
 
                 if (dataTransfer1.getAscii())
@@ -201,7 +190,6 @@ namespace DataTransfer
             }
 
             else if (dataTransfer2.getHex10())
-
             {
 
                 if (dataTransfer1.getAscii())
@@ -223,7 +211,6 @@ namespace DataTransfer
             }
 
             else if (dataTransfer2.getHex2())
-
             {
 
                 if (dataTransfer1.getAscii())
@@ -242,14 +229,14 @@ namespace DataTransfer
 
                     this.text_1.Text = input;
 
-            }else
+            }
+            else
 
                 this.text_1.Text = "未指定转换类型";
 
         }
 
         public main_menu()
-
         {
 
             InitializeComponent();
@@ -259,7 +246,6 @@ namespace DataTransfer
         }
 
         private void text_1_TextChanged(object sender, EventArgs e)
-
         {
 
             textSwitch1(this.text_1.Text);
@@ -269,7 +255,6 @@ namespace DataTransfer
         }
 
         private void check_ascii_1_CheckedChanged(object sender, EventArgs e)
-
         {
 
             if (check_ascii_1.CheckState == CheckState.Checked)
@@ -291,7 +276,6 @@ namespace DataTransfer
         }
 
         private void check_ascii_2_CheckedChanged(object sender, EventArgs e)
-
         {
 
             if (check_ascii_2.CheckState == CheckState.Checked)
@@ -313,7 +297,6 @@ namespace DataTransfer
         }
 
         private void check_hex16_1_CheckedChanged(object sender, EventArgs e)
-
         {
 
             if (check_hex16_1.CheckState == CheckState.Checked)
@@ -335,7 +318,6 @@ namespace DataTransfer
         }
 
         private void check_hex16_2_CheckedChanged(object sender, EventArgs e)
-
         {
 
             if (check_hex16_2.CheckState == CheckState.Checked)
@@ -357,7 +339,6 @@ namespace DataTransfer
         }
 
         private void check_hex10_1_CheckedChanged(object sender, EventArgs e)
-
         {
 
             if (check_hex10_1.CheckState == CheckState.Checked)
@@ -379,7 +360,6 @@ namespace DataTransfer
         }
 
         private void check_hex10_2_CheckedChanged(object sender, EventArgs e)
-
         {
 
             if (check_hex10_2.CheckState == CheckState.Checked)
@@ -401,7 +381,6 @@ namespace DataTransfer
         }
 
         private void check_hex2_1_CheckedChanged(object sender, EventArgs e)
-
         {
 
             if (check_hex2_1.CheckState == CheckState.Checked)
@@ -423,7 +402,6 @@ namespace DataTransfer
         }
 
         private void check_hex2_2_CheckedChanged(object sender, EventArgs e)
-
         {
 
             if (check_hex2_2.CheckState == CheckState.Checked)
@@ -445,7 +423,6 @@ namespace DataTransfer
         }
 
         private void check_space_1_CheckedChanged(object sender, EventArgs e)
-
         {
 
             if (check_space_1.CheckState == CheckState.Checked)
@@ -469,7 +446,6 @@ namespace DataTransfer
 
 
         private void button_en_Click(object sender, EventArgs e)
-
         {
 
             int ret = -1;
@@ -480,12 +456,10 @@ namespace DataTransfer
 
 
 
-            if(this.check_file.Checked && this.text_file.Text.Length > 0)
-
+            if (this.check_file.Checked && this.text_file.Text.Length > 0)
             {
 
                 switch (this.list_encrption.SelectedIndex)
-
                 {
 
                     case 0: //BASE64
@@ -496,9 +470,9 @@ namespace DataTransfer
 
                     case 1: //AES
 
-                        ret = this.encryptList.AesEncryptionFile(this.text_file.Text, this.text_file.Text+".AesEncode.bin", this.text_key.Text, true);
+                        ret = this.encryptList.AesEncryptionFile(this.text_file.Text, this.text_file.Text + ".AesEncode.bin", this.text_key.Text, true);
 
-                        if(ret == 0)
+                        if (ret == 0)
 
                             this.text_2.Text = this.text_file.Text + ".AesEncode.bin" + "\r\n";
 
@@ -565,17 +539,14 @@ namespace DataTransfer
             }
 
             else
-
             {
 
-                switch(this.list_encrption.SelectedIndex)
-
+                switch (this.list_encrption.SelectedIndex)
                 {
 
                     case 0: //BASE64
 
                         try
-
                         {
 
                             string result;
@@ -623,7 +594,6 @@ namespace DataTransfer
                     case 1: //AES
 
                         try
-
                         {
 
                             byte[] resultByte;
@@ -677,7 +647,6 @@ namespace DataTransfer
                     case 2: //DES
 
                         try
-
                         {
 
                             byte[] resultByte;
@@ -731,7 +700,6 @@ namespace DataTransfer
                     case 3: //DES3
 
                         try
-
                         {
 
                             byte[] resultByte;
@@ -805,7 +773,6 @@ namespace DataTransfer
 
 
         private void button_de_Click(object sender, EventArgs e)
-
         {
 
             int ret = -1;
@@ -817,11 +784,9 @@ namespace DataTransfer
 
 
             if (this.check_file.Checked && this.text_file.Text.Length > 0)
-
             {
 
                 switch (this.list_encrption.SelectedIndex)
-
                 {
 
                     case 0: //BASE64
@@ -832,9 +797,9 @@ namespace DataTransfer
 
                     case 1: //AES
 
-                        ret = this.encryptList.AesEncryptionFile(this.text_file.Text, this.text_file.Text+".AesDecode.bin", this.text_key.Text, false);
+                        ret = this.encryptList.AesEncryptionFile(this.text_file.Text, this.text_file.Text + ".AesDecode.bin", this.text_key.Text, false);
 
-                        if(ret == 0)
+                        if (ret == 0)
 
                             this.text_2.Text = this.text_file.Text + ".AesDecode.bin" + "\r\n";
 
@@ -901,17 +866,14 @@ namespace DataTransfer
             }
 
             else
-
             {
 
                 switch (this.list_encrption.SelectedIndex)
-
                 {
 
                     case 0: //BASE64
 
                         try
-
                         {
 
                             byte[] result;
@@ -959,7 +921,6 @@ namespace DataTransfer
                     case 1: //AES
 
                         try
-
                         {
 
                             byte[] result;
@@ -1011,7 +972,6 @@ namespace DataTransfer
                     case 2: //DES
 
                         try
-
                         {
 
                             byte[] result;
@@ -1063,7 +1023,6 @@ namespace DataTransfer
                     case 3: //DES3
 
                         try
-
                         {
 
                             byte[] result;
@@ -1135,17 +1094,14 @@ namespace DataTransfer
 
 
         private void check_file_CheckedChanged(object sender, EventArgs e)
-
         {
 
             if (this.check_file.CheckState == CheckState.Checked)
-
             {
 
                 OpenFileDialog openfiledialig = new OpenFileDialog();
 
                 if (openfiledialig.ShowDialog() == DialogResult.OK)
-
                 {
 
                     this.text_file.Text = openfiledialig.FileName;
@@ -1163,7 +1119,6 @@ namespace DataTransfer
 
 
         private void text_1_KeyDown(object sender, KeyEventArgs e)
-
         {
 
             if (e.Control && e.KeyCode == Keys.A)
@@ -1175,7 +1130,6 @@ namespace DataTransfer
 
 
         private void text_2_KeyDown(object sender, KeyEventArgs e)
-
         {
 
             if (e.Control && e.KeyCode == Keys.A)
@@ -1187,7 +1141,6 @@ namespace DataTransfer
 
 
         private void text_file_KeyDown(object sender, KeyEventArgs e)
-
         {
 
             if (e.Control && e.KeyCode == Keys.A)
@@ -1199,11 +1152,9 @@ namespace DataTransfer
 
 
         private void list_encrption_SelectedIndexChanged(object sender, EventArgs e)
-
         {
 
             if (this.list_encrption.SelectedIndex < 0)
-
             {
 
                 this.button_en.Enabled = this.button_de.Enabled = false;
@@ -1211,7 +1162,6 @@ namespace DataTransfer
             }
 
             else if (this.list_encrption.SelectedIndex == 4)
-
             {
 
                 this.button_en.Enabled = true;
@@ -1221,7 +1171,6 @@ namespace DataTransfer
             }
 
             else
-
             {
 
                 this.button_en.Enabled = this.button_de.Enabled = true;

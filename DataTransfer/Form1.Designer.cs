@@ -953,7 +953,7 @@ namespace DataTransfer
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.MinimumSize = new System.Drawing.Size(640, 660);
             this.Name = "main_menu";
-            this.Text = "DataTransfer V1.0";
+            this.Text = "DataTransfer V1.2";
             this.ResumeLayout(false);
             this.PerformLayout();
 
