@@ -443,8 +443,6 @@ namespace DataTransfer
 
         }
 
-
-
         private void button_en_Click(object sender, EventArgs e)
         {
 
@@ -770,8 +768,6 @@ namespace DataTransfer
 
         }
 
-
-
         private void button_de_Click(object sender, EventArgs e)
         {
 
@@ -1091,8 +1087,6 @@ namespace DataTransfer
 
         }
 
-
-
         private void check_file_CheckedChanged(object sender, EventArgs e)
         {
 
@@ -1116,8 +1110,6 @@ namespace DataTransfer
 
         }
 
-
-
         private void text_1_KeyDown(object sender, KeyEventArgs e)
         {
 
@@ -1126,8 +1118,6 @@ namespace DataTransfer
                 this.text_1.SelectAll();
 
         }
-
-
 
         private void text_2_KeyDown(object sender, KeyEventArgs e)
         {
@@ -1138,8 +1128,6 @@ namespace DataTransfer
 
         }
 
-
-
         private void text_file_KeyDown(object sender, KeyEventArgs e)
         {
 
@@ -1148,8 +1136,6 @@ namespace DataTransfer
                 this.text_file.SelectAll();
 
         }
-
-
 
         private void list_encrption_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -1178,8 +1164,6 @@ namespace DataTransfer
             }
 
         }
-
-
 
     }
 
