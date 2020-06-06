@@ -15,12 +15,53 @@ using System.Threading.Tasks;
 
 
 namespace DataTransfer
-
 {
 
     class EncryptList
-
     {
+
+        private void CopyDirectory(string srcPath, string desPath)
+        {
+            string folderName = srcPath.Substring(srcPath.LastIndexOf("\\") + 1);
+
+            string desfolderdir = desPath + "\\" + folderName;
+
+            if (srcPath.LastIndexOf("\\") == (desPath.Length - 1))
+                desfolderdir = desPath + folderName;
+
+            string[] filenames = Directory.GetFileSystemEntries(srcPath);
+
+            foreach (string file in filenames)
+            {
+                if (Directory.Exists(file))
+                {
+
+                    string currentdir = desfolderdir + "\\" + file.Substring(file.LastIndexOf("\\") + 1);
+                    if (!Directory.Exists(currentdir))
+                    {
+                        Directory.CreateDirectory(currentdir);
+                    }
+
+                    CopyDirectory(file, desfolderdir);
+                }
+
+                else
+                {
+                    string srcfileName = file.Substring(file.LastIndexOf("\\") + 1);
+
+                    srcfileName = desfolderdir + "\\" + srcfileName;
+
+
+                    if (!Directory.Exists(desfolderdir))
+                    {
+                        Directory.CreateDirectory(desfolderdir);
+                    }
+
+
+                    File.Copy(file, srcfileName);
+                }
+            }
+        }
 
         /// <summary>
 
@@ -35,7 +76,6 @@ namespace DataTransfer
         /// <returns></returns>
 
         public string Des3Encryption(string encryptionStr, string key)
-
         {
 
             TripleDESCryptoServiceProvider _pTripDes = new TripleDESCryptoServiceProvider();
@@ -47,7 +87,6 @@ namespace DataTransfer
             _pTripDes.Padding = System.Security.Cryptography.PaddingMode.PKCS7;
 
             try
-
             {
 
                 ICryptoTransform ery = _pTripDes.CreateEncryptor();
@@ -59,7 +98,6 @@ namespace DataTransfer
             }
 
             catch
-
             {
 
                 return string.Empty;
@@ -69,7 +107,6 @@ namespace DataTransfer
         }
 
         public byte[] Des3Encryption(byte[] encryptionArray, string key)
-
         {
 
             TripleDESCryptoServiceProvider _pTripDes = new TripleDESCryptoServiceProvider();
@@ -81,7 +118,6 @@ namespace DataTransfer
             _pTripDes.Padding = System.Security.Cryptography.PaddingMode.PKCS7;
 
             try
-
             {
 
                 ICryptoTransform ery = _pTripDes.CreateEncryptor();
@@ -91,7 +127,6 @@ namespace DataTransfer
             }
 
             catch
-
             {
 
                 return null;
@@ -101,7 +136,6 @@ namespace DataTransfer
         }
 
         public string Des3Decryption(string decryptionStr, string key)
-
         {
 
             TripleDESCryptoServiceProvider _pTripDes = new TripleDESCryptoServiceProvider();
@@ -113,7 +147,6 @@ namespace DataTransfer
             _pTripDes.Padding = System.Security.Cryptography.PaddingMode.PKCS7;
 
             try
-
             {
 
                 ICryptoTransform cry = _pTripDes.CreateDecryptor();
@@ -127,7 +160,6 @@ namespace DataTransfer
             }
 
             catch
-
             {
 
                 return string.Empty;
@@ -137,7 +169,6 @@ namespace DataTransfer
         }
 
         public byte[] Des3Decryption(byte[] decryptionArray, string key)
-
         {
 
             TripleDESCryptoServiceProvider _pTripDes = new TripleDESCryptoServiceProvider();
@@ -149,7 +180,6 @@ namespace DataTransfer
             _pTripDes.Padding = System.Security.Cryptography.PaddingMode.PKCS7;
 
             try
-
             {
 
                 ICryptoTransform cry = _pTripDes.CreateDecryptor();
@@ -159,7 +189,6 @@ namespace DataTransfer
             }
 
             catch
-
             {
 
                 return null;
@@ -169,7 +198,6 @@ namespace DataTransfer
         }
 
         public int Des3EncryptionFile(string filePath, string ditPath, string key, bool isEncrypt)
-
         {
 
             int len = 1024 * 1024;    // 每次 "读-解密-写" 1M数据
@@ -185,16 +213,24 @@ namespace DataTransfer
             int rC = 0, rCL = 0, len2 = 0;
 
             try
-
             {
 
                 System.IO.FileInfo fileInfo = new System.IO.FileInfo(filePath);
 
-                if (isEncrypt)
-
+                if (fileInfo.Length == 0)
                 {
 
-                    if(fileInfo.Length < len)
+                    File.Delete(ditPath);
+
+                    File.Create(ditPath);
+
+                    return 0;
+                }
+
+                if (isEncrypt)
+                {
+
+                    if (fileInfo.Length < len)
 
                         len = (int)(fileInfo.Length);
 
@@ -205,32 +241,29 @@ namespace DataTransfer
                 }
 
                 else
-
                 {
 
-                    if(fileInfo.Length%8 != 0)
+                    if (fileInfo.Length % 8 != 0)
 
                         return -1;
 
                     //
 
-                    if(fileInfo.Length%len == 0)
-
+                    if (fileInfo.Length % len == 0)
                     {
 
-                        rCL = (int)(fileInfo.Length/len - 1);
+                        rCL = (int)(fileInfo.Length / len - 1);
 
                         len2 = len;
 
                     }
 
                     else
-
                     {
 
-                        rCL = (int)(fileInfo.Length/len);
+                        rCL = (int)(fileInfo.Length / len);
 
-                        len2 = (int)(fileInfo.Length%len);
+                        len2 = (int)(fileInfo.Length % len);
 
                     }
 
@@ -253,11 +286,9 @@ namespace DataTransfer
                 FileStream read_fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read);
 
                 if (isEncrypt)
-
                 {
 
                     while (ret == len)
-
                     {
 
                         //读数据
@@ -270,8 +301,7 @@ namespace DataTransfer
 
                             dpt_byte = this.Des3Encryption(read_byte, key);
 
-                        else if(ret < len && ret > 0)
-
+                        else if (ret < len && ret > 0)
                         {
 
                             byte[] temp_byte = new byte[ret];
@@ -301,11 +331,9 @@ namespace DataTransfer
                 }
 
                 else
-
                 {
 
                     while (rC < rCL)
-
                     {
 
                         //读数据
@@ -314,8 +342,7 @@ namespace DataTransfer
 
                         //
 
-                        if(ret == len)
-
+                        if (ret == len)
                         {
 
                             rC += 1;
@@ -346,16 +373,14 @@ namespace DataTransfer
 
                 //
 
-                if(len2 > 0)
-
+                if (len2 > 0)
                 {
 
                     ret = read_fileStream.Read(read_byte, 0, len2);
 
                     //解密
 
-                    if(ret > 0 && ret%8 == 0)
-
+                    if (ret > 0 && ret % 8 == 0)
                     {
 
                         //自带尾巴?
@@ -368,13 +393,12 @@ namespace DataTransfer
 
                         //
 
-                        if(dpt_byte == null)
-
+                        if (dpt_byte == null)
                         {
 
                             //补上尾巴 再次尝试
 
-                            temp_byte = new byte[ret+des_tail.Length];
+                            temp_byte = new byte[ret + des_tail.Length];
 
                             Buffer.BlockCopy(read_byte, 0, temp_byte, 0, ret);
 
@@ -403,7 +427,6 @@ namespace DataTransfer
             }
 
             catch (IOException)
-
             {
 
                 return -2;  //"err"
@@ -427,7 +450,6 @@ namespace DataTransfer
         /// <returns></returns>
 
         public string DesEncryption(string encryptionStr, string key)
-
         {
 
             DESCryptoServiceProvider _pTripDes = new DESCryptoServiceProvider();
@@ -439,7 +461,6 @@ namespace DataTransfer
             _pTripDes.Padding = System.Security.Cryptography.PaddingMode.PKCS7;
 
             try
-
             {
 
                 ICryptoTransform ery = _pTripDes.CreateEncryptor();
@@ -451,7 +472,6 @@ namespace DataTransfer
             }
 
             catch
-
             {
 
                 return string.Empty;
@@ -461,7 +481,6 @@ namespace DataTransfer
         }
 
         public byte[] DesEncryption(byte[] encryptionArray, string key)
-
         {
 
             DESCryptoServiceProvider _pTripDes = new DESCryptoServiceProvider();
@@ -473,7 +492,6 @@ namespace DataTransfer
             _pTripDes.Padding = System.Security.Cryptography.PaddingMode.PKCS7;
 
             try
-
             {
 
                 ICryptoTransform ery = _pTripDes.CreateEncryptor();
@@ -483,7 +501,6 @@ namespace DataTransfer
             }
 
             catch
-
             {
 
                 return null;
@@ -493,7 +510,6 @@ namespace DataTransfer
         }
 
         public string DesDecryption(string decryptionStr, string key)
-
         {
 
             DESCryptoServiceProvider _pTripDes = new DESCryptoServiceProvider();
@@ -505,7 +521,6 @@ namespace DataTransfer
             _pTripDes.Padding = System.Security.Cryptography.PaddingMode.PKCS7;
 
             try
-
             {
 
                 ICryptoTransform cry = _pTripDes.CreateDecryptor();
@@ -519,7 +534,6 @@ namespace DataTransfer
             }
 
             catch
-
             {
 
                 return string.Empty;
@@ -529,7 +543,6 @@ namespace DataTransfer
         }
 
         public byte[] DesDecryption(byte[] decryptionArray, string key)
-
         {
 
             DESCryptoServiceProvider _pTripDes = new DESCryptoServiceProvider();
@@ -541,7 +554,6 @@ namespace DataTransfer
             _pTripDes.Padding = System.Security.Cryptography.PaddingMode.PKCS7;
 
             try
-
             {
 
                 ICryptoTransform cry = _pTripDes.CreateDecryptor();
@@ -551,7 +563,6 @@ namespace DataTransfer
             }
 
             catch
-
             {
 
                 return null;
@@ -561,7 +572,6 @@ namespace DataTransfer
         }
 
         public int DesEncryptionFile(string filePath, string ditPath, string key, bool isEncrypt)
-
         {
 
             int len = 1024 * 1024;    // 每次 "读-解密-写" 1M数据
@@ -577,16 +587,23 @@ namespace DataTransfer
             int rC = 0, rCL = 0, len2 = 0;
 
             try
-
             {
 
                 System.IO.FileInfo fileInfo = new System.IO.FileInfo(filePath);
 
-                if (isEncrypt)
+                if (fileInfo.Length == 0)
+                {
+                    File.Delete(ditPath);
 
+                    File.Create(ditPath);
+
+                    return 0;
+                }
+
+                if (isEncrypt)
                 {
 
-                    if(fileInfo.Length < len)
+                    if (fileInfo.Length < len)
 
                         len = (int)(fileInfo.Length);
 
@@ -597,32 +614,29 @@ namespace DataTransfer
                 }
 
                 else
-
                 {
 
-                    if(fileInfo.Length%8 != 0)
+                    if (fileInfo.Length % 8 != 0)
 
                         return -1;
 
                     //
 
-                    if(fileInfo.Length%len == 0)
-
+                    if (fileInfo.Length % len == 0)
                     {
 
-                        rCL = (int)(fileInfo.Length/len - 1);
+                        rCL = (int)(fileInfo.Length / len - 1);
 
                         len2 = len;
 
                     }
 
                     else
-
                     {
 
-                        rCL = (int)(fileInfo.Length/len);
+                        rCL = (int)(fileInfo.Length / len);
 
-                        len2 = (int)(fileInfo.Length%len);
+                        len2 = (int)(fileInfo.Length % len);
 
                     }
 
@@ -645,11 +659,9 @@ namespace DataTransfer
                 FileStream read_fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read);
 
                 if (isEncrypt)
-
                 {
 
                     while (ret == len)
-
                     {
 
                         //读数据
@@ -662,8 +674,7 @@ namespace DataTransfer
 
                             dpt_byte = this.DesEncryption(read_byte, key);
 
-                        else if(ret < len && ret > 0)
-
+                        else if (ret < len && ret > 0)
                         {
 
                             byte[] temp_byte = new byte[ret];
@@ -693,11 +704,9 @@ namespace DataTransfer
                 }
 
                 else
-
                 {
 
                     while (rC < rCL)
-
                     {
 
                         //读数据
@@ -706,8 +715,7 @@ namespace DataTransfer
 
                         //
 
-                        if(ret == len)
-
+                        if (ret == len)
                         {
 
                             rC += 1;
@@ -738,16 +746,14 @@ namespace DataTransfer
 
                 //
 
-                if(len2 > 0)
-
+                if (len2 > 0)
                 {
 
                     ret = read_fileStream.Read(read_byte, 0, len2);
 
                     //解密
 
-                    if(ret > 0 && ret%8 == 0)
-
+                    if (ret > 0 && ret % 8 == 0)
                     {
 
                         //自带尾巴?
@@ -760,13 +766,12 @@ namespace DataTransfer
 
                         //
 
-                        if(dpt_byte == null)
-
+                        if (dpt_byte == null)
                         {
 
                             //补上尾巴 再次尝试
 
-                            temp_byte = new byte[ret+des_tail.Length];
+                            temp_byte = new byte[ret + des_tail.Length];
 
                             Buffer.BlockCopy(read_byte, 0, temp_byte, 0, ret);
 
@@ -795,7 +800,6 @@ namespace DataTransfer
             }
 
             catch (IOException)
-
             {
 
                 return -2;  //"err"
@@ -819,7 +823,6 @@ namespace DataTransfer
         /// <returns></returns>
 
         public string AesEncryption(string toEncrypt, string key)
-
         {
 
             byte[] keyArray = UTF8Encoding.UTF8.GetBytes(key);
@@ -849,7 +852,6 @@ namespace DataTransfer
         }
 
         public byte[] AesEncryption(byte[] toEncryptArray, string key)
-
         {
 
             byte[] keyArray = UTF8Encoding.UTF8.GetBytes(key);
@@ -867,7 +869,6 @@ namespace DataTransfer
             byte[] resultArray = new byte[1] { 0 };
 
             try
-
             {
 
                 ICryptoTransform cTransform = rDel.CreateEncryptor();
@@ -885,7 +886,6 @@ namespace DataTransfer
         }
 
         public string AesDecryption(string toDecrypt, string key)
-
         {
 
             byte[] keyArray = UTF8Encoding.UTF8.GetBytes(key);
@@ -908,14 +908,11 @@ namespace DataTransfer
 
             byte[] resultArray = cTransform.TransformFinalBlock(toEncryptArray, 0, toEncryptArray.Length);
 
-
-
             return UTF8Encoding.UTF8.GetString(resultArray);
 
         }
 
         public byte[] AesDecryption(byte[] toEncryptArray, string key)
-
         {
 
             byte[] keyArray = UTF8Encoding.UTF8.GetBytes(key);
@@ -931,7 +928,6 @@ namespace DataTransfer
             byte[] resultArray = new byte[1] { 0 };
 
             try
-
             {
 
                 ICryptoTransform cTransform = rDel.CreateDecryptor();
@@ -949,7 +945,6 @@ namespace DataTransfer
         }
 
         public int AesEncryptionFile(string filePath, string ditPath, string key, bool isEncrypt)
-
         {
 
             int len = 1024 * 1024;    // 每次 "读-解密-写" 1M数据
@@ -965,16 +960,23 @@ namespace DataTransfer
             int rC = 0, rCL = 0, len2 = 0;
 
             try
-
             {
 
                 System.IO.FileInfo fileInfo = new System.IO.FileInfo(filePath);
 
-                if (isEncrypt)
+                if (fileInfo.Length == 0)
+                {
+                    File.Delete(ditPath);
 
+                    File.Create(ditPath);
+
+                    return 0;
+                }
+
+                if (isEncrypt)
                 {
 
-                    if(fileInfo.Length < len)
+                    if (fileInfo.Length < len)
 
                         len = (int)(fileInfo.Length);
 
@@ -985,32 +987,29 @@ namespace DataTransfer
                 }
 
                 else
-
                 {
 
-                    if(fileInfo.Length%16 != 0)
+                    if (fileInfo.Length % 16 != 0)
 
                         return -1;
 
                     //
 
-                    if(fileInfo.Length%len == 0)
-
+                    if (fileInfo.Length % len == 0)
                     {
 
-                        rCL = (int)(fileInfo.Length/len - 1);
+                        rCL = (int)(fileInfo.Length / len - 1);
 
                         len2 = len;
 
                     }
 
                     else
-
                     {
 
-                        rCL = (int)(fileInfo.Length/len);
+                        rCL = (int)(fileInfo.Length / len);
 
-                        len2 = (int)(fileInfo.Length%len);
+                        len2 = (int)(fileInfo.Length % len);
 
                     }
 
@@ -1033,11 +1032,9 @@ namespace DataTransfer
                 FileStream read_fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read);
 
                 if (isEncrypt)
-
                 {
 
                     while (ret == len)
-
                     {
 
                         //读数据
@@ -1050,8 +1047,7 @@ namespace DataTransfer
 
                             dpt_byte = this.AesEncryption(read_byte, key);
 
-                        else if(ret < len && ret > 0)
-
+                        else if (ret < len && ret > 0)
                         {
 
                             byte[] temp_byte = new byte[ret];
@@ -1081,11 +1077,9 @@ namespace DataTransfer
                 }
 
                 else
-
                 {
 
                     while (rC < rCL)
-
                     {
 
                         //读数据
@@ -1094,8 +1088,7 @@ namespace DataTransfer
 
                         //
 
-                        if(ret == len)
-
+                        if (ret == len)
                         {
 
                             rC += 1;
@@ -1124,18 +1117,14 @@ namespace DataTransfer
 
                 }
 
-                //
-
-                if(len2 > 0)
-
+                if (len2 > 0)
                 {
 
                     ret = read_fileStream.Read(read_byte, 0, len2);
 
                     //解密
 
-                    if(ret > 0 && ret%16 == 0)
-
+                    if (ret > 0 && ret % 16 == 0)
                     {
 
                         //自带尾巴?
@@ -1146,15 +1135,12 @@ namespace DataTransfer
 
                         dpt_byte = this.AesDecryption(temp_byte, key);
 
-                        //
-
-                        if(dpt_byte == null)
-
+                        if (dpt_byte == null)
                         {
 
                             //补上尾巴 再次尝试
 
-                            temp_byte = new byte[ret+aes_tail.Length];
+                            temp_byte = new byte[ret + aes_tail.Length];
 
                             Buffer.BlockCopy(read_byte, 0, temp_byte, 0, ret);
 
@@ -1164,8 +1150,6 @@ namespace DataTransfer
 
                         }
 
-                        //
-
                         if (dpt_byte != null)
 
                             write_fileStream.Write(dpt_byte, 0, dpt_byte.Length);
@@ -1174,8 +1158,6 @@ namespace DataTransfer
 
                 }
 
-                //
-
                 read_fileStream.Close();
 
                 write_fileStream.Close();
@@ -1183,7 +1165,6 @@ namespace DataTransfer
             }
 
             catch (IOException)
-
             {
 
                 return -2;  //"err"
@@ -1205,27 +1186,21 @@ namespace DataTransfer
         /// <returns></returns>
 
         public string Md5EncryptionFile(string fileName)
-
         {
 
             try
-
             {
 
                 using (FileStream file = new FileStream(fileName, FileMode.Open))
-
                 {
 
                     System.Security.Cryptography.MD5 md5 = new System.Security.Cryptography.MD5CryptoServiceProvider();
 
                     byte[] hash = md5.ComputeHash(file);
 
-
-
                     StringBuilder result = new StringBuilder();
 
                     for (int i = 0; i < hash.Length; i++)
-
                     {
 
                         result.Append(hash[i].ToString("x2"));
@@ -1239,13 +1214,66 @@ namespace DataTransfer
             }
 
             catch
-
             {
 
                 return "Md5 calculate failed !!";
 
             }
 
+        }
+
+        /*
+         *  srcPath、distPath 结尾不带'\'
+         *  
+         *  返回: 转换文件总数(不包括文件夹)
+         */
+        public int EncryptDirectory(string srcPath, string distPath, string key, bool isEncrypt, Func<string, string, string, bool, int> fun)
+        {
+            //是文件,直接转换
+            if (File.Exists(srcPath))
+            {
+                fun(srcPath, distPath, key, isEncrypt);
+
+                return 1;
+            }
+            //是文件夹,递归遍历
+            else if (Directory.Exists(srcPath))
+            {
+                int ret = 0;
+
+                //创建目标文件夹
+                Directory.CreateDirectory(distPath);
+
+                //遍历源文件夹下的文件
+                string[] fileList = Directory.GetFileSystemEntries(srcPath);
+
+                foreach (string file in fileList)
+                {
+                    //是文件，直接转换
+                    if (File.Exists(file))
+                    {
+                        //目标文件夹 + 当前文件名
+                        string distFile = distPath + "\\" + file.Substring(file.LastIndexOf("\\") + 1);
+
+                        fun(file, distFile, key, isEncrypt);
+
+                        ret += 1;
+                    }
+
+                    //是文件夹，递归遍历
+                    else if (Directory.Exists(file))
+                    {
+                        //目标文件夹 + 当前文件夹
+                        string distDir = distPath + "\\" + file.Substring(file.LastIndexOf("\\") + 1);
+
+                        //递归
+                        ret += EncryptDirectory(file, distDir, key, isEncrypt, fun);
+                    }
+                }
+
+                return ret;
+            }
+            return 0;
         }
 
     }

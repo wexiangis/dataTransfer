@@ -452,8 +452,6 @@ namespace DataTransfer
 
             this.Cursor = System.Windows.Forms.Cursors.WaitCursor;//鼠标为忙碌状态
 
-
-
             if (this.check_file.Checked && this.text_file.Text.Length > 0)
             {
 
@@ -523,6 +521,88 @@ namespace DataTransfer
                     case 4: //MD5
 
                         this.text_2.Text = this.encryptList.Md5EncryptionFile(this.text_file.Text);
+
+                        break;
+
+                    default:
+
+                        text_2.Text = "请选择加密方式";
+
+                        break;
+
+                }
+
+            }
+
+            else if (this.check_dir.Checked && this.text_file.Text.Length > 0)
+            {
+
+                switch (this.list_encrption.SelectedIndex)
+                {
+
+                    case 0: //BASE64
+
+                        text_2.Text = "不支持 BASE64 处理文件夹\r\n";
+
+                        break;
+
+                    case 1: //AES
+
+                        ret = this.encryptList.EncryptDirectory(this.text_file.Text, this.text_file.Text + "-AesEncode", this.text_key.Text, true, this.encryptList.AesEncryptionFile);
+
+                        if (ret >= 0)
+
+                            this.text_2.Text = this.text_file.Text + "-AesEncode, file " + ret + "\r\n";
+
+                        else if (ret == -2)
+
+                            this.text_2.Text = this.text_file.Text + " open failed\r\n";
+
+                        else
+
+                            this.text_2.Text = "aesEncode failed !\r\n";
+
+                        break;
+
+                    case 2: //DES
+
+                        ret = this.encryptList.EncryptDirectory(this.text_file.Text, this.text_file.Text + "-DesEncode", this.text_key.Text, true, this.encryptList.DesEncryptionFile);
+
+                        if (ret >= 0)
+
+                            this.text_2.Text = this.text_file.Text + "-DesEncode, file " + ret + "\r\n";
+
+                        else if (ret == -2)
+
+                            this.text_2.Text = this.text_file.Text + " open failed\r\n";
+
+                        else
+
+                            this.text_2.Text = "desEncode failed !\r\n";
+
+                        break;
+
+                    case 3: //DES3
+
+                        ret = this.encryptList.EncryptDirectory(this.text_file.Text, this.text_file.Text + "-Des3Encode", this.text_key.Text, true, this.encryptList.Des3EncryptionFile);
+
+                        if (ret >= 0)
+
+                            this.text_2.Text = this.text_file.Text + "-Des3Encode , file " + ret + "\r\n";
+
+                        else if (ret == -2)
+
+                            this.text_2.Text = this.text_file.Text + " open failed\r\n";
+
+                        else
+
+                            this.text_2.Text = "des3Encode failed !\r\n";
+
+                        break;
+
+                    case 4: //MD5
+
+                        text_2.Text = "不支持 MD5 处理文件夹\r\n";
 
                         break;
 
@@ -777,8 +857,6 @@ namespace DataTransfer
 
             this.Cursor = System.Windows.Forms.Cursors.WaitCursor;//鼠标为忙碌状态
 
-
-
             if (this.check_file.Checked && this.text_file.Text.Length > 0)
             {
 
@@ -848,6 +926,88 @@ namespace DataTransfer
                     case 4: //MD5
 
                         this.text_2.Text = this.encryptList.Md5EncryptionFile(this.text_file.Text);
+
+                        break;
+
+                    default:
+
+                        text_2.Text = "请选择加密方式";
+
+                        break;
+
+                }
+
+            }
+
+            if (this.check_dir.Checked && this.text_file.Text.Length > 0)
+            {
+
+                switch (this.list_encrption.SelectedIndex)
+                {
+
+                    case 0: //BASE64
+
+                        text_2.Text = "不支持 BASE64 处理文件夹\r\n";
+
+                        break;
+
+                    case 1: //AES
+
+                        ret = this.encryptList.EncryptDirectory(this.text_file.Text, this.text_file.Text + "-AesDecode", this.text_key.Text, false, this.encryptList.AesEncryptionFile);
+
+                        if (ret >= 0)
+
+                            this.text_2.Text = this.text_file.Text + "-AesDecode, file " + ret + "\r\n";
+
+                        else if (ret == -2)
+
+                            this.text_2.Text = this.text_file.Text + " open failed\r\n";
+
+                        else
+
+                            this.text_2.Text = "aesDecode failed !\r\n";
+
+                        break;
+
+                    case 2: //DES
+
+                        ret = this.encryptList.EncryptDirectory(this.text_file.Text, this.text_file.Text + "-DesDecode", this.text_key.Text, false, this.encryptList.DesEncryptionFile);
+
+                        if (ret >= 0)
+
+                            this.text_2.Text = this.text_file.Text + "-DesDecode, file " + ret + "\r\n";
+
+                        else if (ret == -2)
+
+                            this.text_2.Text = this.text_file.Text + " open failed\r\n";
+
+                        else
+
+                            this.text_2.Text = "desDecode failed !\r\n";
+
+                        break;
+
+                    case 3: //DES3
+
+                        ret = this.encryptList.EncryptDirectory(this.text_file.Text, this.text_file.Text + "-Des3Decode", this.text_key.Text, false, this.encryptList.Des3EncryptionFile);
+
+                        if (ret >= 0)
+
+                            this.text_2.Text = this.text_file.Text + "-Des3Decode, file " + ret + "\r\n";
+
+                        else if (ret == -2)
+
+                            this.text_2.Text = this.text_file.Text + " open failed\r\n";
+
+                        else
+
+                            this.text_2.Text = "des3Decode failed !\r\n";
+
+                        break;
+
+                    case 4: //MD5
+
+                        text_2.Text = "不支持 MD5 处理文件夹\r\n";
 
                         break;
 
@@ -1087,29 +1247,6 @@ namespace DataTransfer
 
         }
 
-        private void check_file_CheckedChanged(object sender, EventArgs e)
-        {
-
-            if (this.check_file.CheckState == CheckState.Checked)
-            {
-
-                OpenFileDialog openfiledialig = new OpenFileDialog();
-
-                if (openfiledialig.ShowDialog() == DialogResult.OK)
-                {
-
-                    this.text_file.Text = openfiledialig.FileName;
-
-                }
-
-                else
-
-                    this.check_file.Checked = false;
-
-            }
-
-        }
-
         private void text_1_KeyDown(object sender, KeyEventArgs e)
         {
 
@@ -1163,6 +1300,56 @@ namespace DataTransfer
 
             }
 
+        }
+
+        private void check_file_CheckedChanged(object sender, EventArgs e)
+        {
+
+            if (this.check_file.CheckState == CheckState.Checked)
+            {
+
+                OpenFileDialog dialog = new OpenFileDialog();
+
+                dialog.Multiselect = true;//该值确定是否可以选择多个文件
+                // dialog.Title = "请选择文件夹";
+                // dialog.Filter = "所有文件(*.*)|*.*";
+
+                if (dialog.ShowDialog() == DialogResult.OK)
+                {
+                    this.check_dir.Checked = false;
+
+                    this.text_file.Text = dialog.FileName;
+
+                }
+
+                else
+
+                    this.check_file.Checked = false;
+
+            }
+
+        }
+
+        private void check_dir_CheckedChanged(object sender, EventArgs e)
+        {
+
+            if (this.check_dir.CheckState == CheckState.Checked)
+            {
+                FolderBrowserDialog dialog = new FolderBrowserDialog();
+
+                if (dialog.ShowDialog() == DialogResult.OK)
+                {
+                    this.check_file.Checked = false;
+
+                    this.text_file.Text = dialog.SelectedPath;
+
+                }
+
+                else
+
+                    this.check_dir.Checked = false;
+
+            }
         }
 
     }

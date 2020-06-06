@@ -713,6 +713,7 @@ namespace DataTransfer
             this.check_file = new System.Windows.Forms.CheckBox();
             this.text_file = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
+            this.check_dir = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // text_2
@@ -720,11 +721,11 @@ namespace DataTransfer
             this.text_2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.text_2.Location = new System.Drawing.Point(12, 390);
+            this.text_2.Location = new System.Drawing.Point(12, 316);
             this.text_2.Multiline = true;
             this.text_2.Name = "text_2";
             this.text_2.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.text_2.Size = new System.Drawing.Size(600, 219);
+            this.text_2.Size = new System.Drawing.Size(598, 250);
             this.text_2.TabIndex = 1;
             this.text_2.KeyDown += new System.Windows.Forms.KeyEventHandler(this.text_2_KeyDown);
             // 
@@ -737,7 +738,7 @@ namespace DataTransfer
             this.text_1.Multiline = true;
             this.text_1.Name = "text_1";
             this.text_1.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.text_1.Size = new System.Drawing.Size(600, 320);
+            this.text_1.Size = new System.Drawing.Size(598, 250);
             this.text_1.TabIndex = 0;
             this.text_1.TextChanged += new System.EventHandler(this.text_1_TextChanged);
             this.text_1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.text_1_KeyDown);
@@ -745,7 +746,7 @@ namespace DataTransfer
             // check_ascii_1
             // 
             this.check_ascii_1.AutoSize = true;
-            this.check_ascii_1.Location = new System.Drawing.Point(12, 339);
+            this.check_ascii_1.Location = new System.Drawing.Point(12, 265);
             this.check_ascii_1.Name = "check_ascii_1";
             this.check_ascii_1.Size = new System.Drawing.Size(65, 23);
             this.check_ascii_1.TabIndex = 2;
@@ -756,7 +757,7 @@ namespace DataTransfer
             // check_ascii_2
             // 
             this.check_ascii_2.AutoSize = true;
-            this.check_ascii_2.Location = new System.Drawing.Point(12, 364);
+            this.check_ascii_2.Location = new System.Drawing.Point(12, 291);
             this.check_ascii_2.Name = "check_ascii_2";
             this.check_ascii_2.Size = new System.Drawing.Size(65, 23);
             this.check_ascii_2.TabIndex = 3;
@@ -767,7 +768,7 @@ namespace DataTransfer
             // check_hex16_1
             // 
             this.check_hex16_1.AutoSize = true;
-            this.check_hex16_1.Location = new System.Drawing.Point(63, 339);
+            this.check_hex16_1.Location = new System.Drawing.Point(63, 265);
             this.check_hex16_1.Name = "check_hex16_1";
             this.check_hex16_1.Size = new System.Drawing.Size(72, 23);
             this.check_hex16_1.TabIndex = 6;
@@ -778,7 +779,7 @@ namespace DataTransfer
             // check_hex16_2
             // 
             this.check_hex16_2.AutoSize = true;
-            this.check_hex16_2.Location = new System.Drawing.Point(63, 364);
+            this.check_hex16_2.Location = new System.Drawing.Point(63, 291);
             this.check_hex16_2.Name = "check_hex16_2";
             this.check_hex16_2.Size = new System.Drawing.Size(72, 23);
             this.check_hex16_2.TabIndex = 7;
@@ -789,7 +790,7 @@ namespace DataTransfer
             // check_hex10_1
             // 
             this.check_hex10_1.AutoSize = true;
-            this.check_hex10_1.Location = new System.Drawing.Point(120, 339);
+            this.check_hex10_1.Location = new System.Drawing.Point(120, 265);
             this.check_hex10_1.Name = "check_hex10_1";
             this.check_hex10_1.Size = new System.Drawing.Size(72, 23);
             this.check_hex10_1.TabIndex = 10;
@@ -800,7 +801,7 @@ namespace DataTransfer
             // check_hex10_2
             // 
             this.check_hex10_2.AutoSize = true;
-            this.check_hex10_2.Location = new System.Drawing.Point(120, 364);
+            this.check_hex10_2.Location = new System.Drawing.Point(120, 291);
             this.check_hex10_2.Name = "check_hex10_2";
             this.check_hex10_2.Size = new System.Drawing.Size(72, 23);
             this.check_hex10_2.TabIndex = 11;
@@ -811,7 +812,7 @@ namespace DataTransfer
             // check_hex2_1
             // 
             this.check_hex2_1.AutoSize = true;
-            this.check_hex2_1.Location = new System.Drawing.Point(178, 339);
+            this.check_hex2_1.Location = new System.Drawing.Point(178, 265);
             this.check_hex2_1.Name = "check_hex2_1";
             this.check_hex2_1.Size = new System.Drawing.Size(64, 23);
             this.check_hex2_1.TabIndex = 12;
@@ -822,7 +823,7 @@ namespace DataTransfer
             // check_hex2_2
             // 
             this.check_hex2_2.AutoSize = true;
-            this.check_hex2_2.Location = new System.Drawing.Point(178, 364);
+            this.check_hex2_2.Location = new System.Drawing.Point(178, 291);
             this.check_hex2_2.Name = "check_hex2_2";
             this.check_hex2_2.Size = new System.Drawing.Size(72, 23);
             this.check_hex2_2.TabIndex = 13;
@@ -835,7 +836,7 @@ namespace DataTransfer
             this.check_space_1.AutoSize = true;
             this.check_space_1.Checked = true;
             this.check_space_1.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.check_space_1.Location = new System.Drawing.Point(234, 364);
+            this.check_space_1.Location = new System.Drawing.Point(234, 291);
             this.check_space_1.Name = "check_space_1";
             this.check_space_1.Size = new System.Drawing.Size(76, 23);
             this.check_space_1.TabIndex = 14;
@@ -850,10 +851,10 @@ namespace DataTransfer
             this.text_key.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.text_key.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.text_key.ForeColor = System.Drawing.Color.Red;
-            this.text_key.Location = new System.Drawing.Point(433, 337);
+            this.text_key.Location = new System.Drawing.Point(433, 263);
             this.text_key.MaxLength = 32;
             this.text_key.Name = "text_key";
-            this.text_key.Size = new System.Drawing.Size(179, 27);
+            this.text_key.Size = new System.Drawing.Size(177, 27);
             this.text_key.TabIndex = 23;
             this.text_key.Text = "0123456789012345";
             this.text_key.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -861,7 +862,7 @@ namespace DataTransfer
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(238, 339);
+            this.label1.Location = new System.Drawing.Point(238, 265);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(68, 19);
             this.label1.TabIndex = 24;
@@ -877,7 +878,7 @@ namespace DataTransfer
             "DES",
             "DES3",
             "MD5"});
-            this.list_encrption.Location = new System.Drawing.Point(290, 337);
+            this.list_encrption.Location = new System.Drawing.Point(290, 263);
             this.list_encrption.Name = "list_encrption";
             this.list_encrption.Size = new System.Drawing.Size(101, 25);
             this.list_encrption.TabIndex = 25;
@@ -887,7 +888,7 @@ namespace DataTransfer
             // 
             this.button_en.Enabled = false;
             this.button_en.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.button_en.Location = new System.Drawing.Point(290, 364);
+            this.button_en.Location = new System.Drawing.Point(290, 290);
             this.button_en.Name = "button_en";
             this.button_en.Size = new System.Drawing.Size(38, 23);
             this.button_en.TabIndex = 26;
@@ -899,7 +900,7 @@ namespace DataTransfer
             // 
             this.button_de.Enabled = false;
             this.button_de.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.button_de.Location = new System.Drawing.Point(336, 364);
+            this.button_de.Location = new System.Drawing.Point(336, 290);
             this.button_de.Name = "button_de";
             this.button_de.Size = new System.Drawing.Size(38, 23);
             this.button_de.TabIndex = 27;
@@ -911,7 +912,7 @@ namespace DataTransfer
             // 
             this.check_file.AutoSize = true;
             this.check_file.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.check_file.Location = new System.Drawing.Point(381, 365);
+            this.check_file.Location = new System.Drawing.Point(378, 291);
             this.check_file.Name = "check_file";
             this.check_file.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.check_file.Size = new System.Drawing.Size(56, 24);
@@ -925,9 +926,9 @@ namespace DataTransfer
             this.text_file.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.text_file.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.text_file.Location = new System.Drawing.Point(433, 364);
+            this.text_file.Location = new System.Drawing.Point(491, 290);
             this.text_file.Name = "text_file";
-            this.text_file.Size = new System.Drawing.Size(179, 27);
+            this.text_file.Size = new System.Drawing.Size(119, 27);
             this.text_file.TabIndex = 29;
             this.text_file.KeyDown += new System.Windows.Forms.KeyEventHandler(this.text_file_KeyDown);
             // 
@@ -935,18 +936,32 @@ namespace DataTransfer
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label2.Location = new System.Drawing.Point(398, 339);
+            this.label2.Location = new System.Drawing.Point(398, 265);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(36, 20);
             this.label2.TabIndex = 30;
             this.label2.Text = "Key";
+            // 
+            // check_dir
+            // 
+            this.check_dir.AutoSize = true;
+            this.check_dir.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.check_dir.Location = new System.Drawing.Point(433, 290);
+            this.check_dir.Name = "check_dir";
+            this.check_dir.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.check_dir.Size = new System.Drawing.Size(52, 24);
+            this.check_dir.TabIndex = 31;
+            this.check_dir.Text = "Dir";
+            this.check_dir.UseVisualStyleBackColor = true;
+            this.check_dir.CheckedChanged += new System.EventHandler(this.check_dir_CheckedChanged);
             // 
             // main_menu
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.InactiveCaption;
-            this.ClientSize = new System.Drawing.Size(624, 622);
+            this.ClientSize = new System.Drawing.Size(622, 578);
+            this.Controls.Add(this.check_dir);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.text_file);
             this.Controls.Add(this.check_file);
@@ -970,7 +985,7 @@ namespace DataTransfer
             this.Font = new System.Drawing.Font("微软雅黑", 7.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
-            this.MinimumSize = new System.Drawing.Size(640, 660);
+            this.MinimumSize = new System.Drawing.Size(640, 625);
             this.Name = "main_menu";
             this.Text = "DataTransfer V1.3 - 2020.05.09";
             this.ResumeLayout(false);
@@ -999,6 +1014,7 @@ namespace DataTransfer
         private System.Windows.Forms.CheckBox check_file;
         private System.Windows.Forms.TextBox text_file;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.CheckBox check_dir;
     }
 }
 
