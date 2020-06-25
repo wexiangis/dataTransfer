@@ -851,10 +851,10 @@ namespace DataTransfer
             this.text_key.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.text_key.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.text_key.ForeColor = System.Drawing.Color.Red;
-            this.text_key.Location = new System.Drawing.Point(433, 263);
+            this.text_key.Location = new System.Drawing.Point(414, 263);
             this.text_key.MaxLength = 32;
             this.text_key.Name = "text_key";
-            this.text_key.Size = new System.Drawing.Size(177, 27);
+            this.text_key.Size = new System.Drawing.Size(196, 27);
             this.text_key.TabIndex = 23;
             this.text_key.Text = "0123456789012345";
             this.text_key.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -862,11 +862,11 @@ namespace DataTransfer
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(238, 265);
+            this.label1.Location = new System.Drawing.Point(230, 266);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(68, 19);
+            this.label1.Size = new System.Drawing.Size(75, 19);
             this.label1.TabIndex = 24;
-            this.label1.Text = "Encrption";
+            this.label1.Text = "Encrpytion";
             // 
             // list_encrption
             // 
@@ -880,7 +880,7 @@ namespace DataTransfer
             "MD5"});
             this.list_encrption.Location = new System.Drawing.Point(290, 263);
             this.list_encrption.Name = "list_encrption";
-            this.list_encrption.Size = new System.Drawing.Size(101, 25);
+            this.list_encrption.Size = new System.Drawing.Size(84, 25);
             this.list_encrption.TabIndex = 25;
             this.list_encrption.SelectedIndexChanged += new System.EventHandler(this.list_encrption_SelectedIndexChanged);
             // 
@@ -936,7 +936,7 @@ namespace DataTransfer
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label2.Location = new System.Drawing.Point(398, 265);
+            this.label2.Location = new System.Drawing.Point(380, 265);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(36, 20);
             this.label2.TabIndex = 30;
@@ -961,6 +961,7 @@ namespace DataTransfer
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.InactiveCaption;
             this.ClientSize = new System.Drawing.Size(622, 578);
+            this.Controls.Add(this.text_key);
             this.Controls.Add(this.check_dir);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.text_file);
@@ -969,7 +970,6 @@ namespace DataTransfer
             this.Controls.Add(this.button_en);
             this.Controls.Add(this.list_encrption);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.text_key);
             this.Controls.Add(this.check_space_1);
             this.Controls.Add(this.check_hex2_2);
             this.Controls.Add(this.check_hex2_1);
