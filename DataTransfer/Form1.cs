@@ -252,6 +252,7 @@ namespace DataTransfer
 
             checkBox1Flash();
 
+            this.label_len_src.Text = this.text_1.Text.Length.ToString();
         }
 
         private void check_ascii_1_CheckedChanged(object sender, EventArgs e)
@@ -1350,6 +1351,11 @@ namespace DataTransfer
                     this.check_dir.Checked = false;
 
             }
+        }
+
+        private void text_2_TextChanged(object sender, EventArgs e)
+        {
+            this.label_len_dist.Text = this.text_2.Text.Length.ToString();
         }
 
     }
