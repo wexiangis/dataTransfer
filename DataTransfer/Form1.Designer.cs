@@ -238,9 +238,9 @@ namespace DataTransfer
                     if (temp_uint32 >= 32 && temp_uint32 <= 126)
                         tempString += (char)temp_uint32;
                     else if (temp_uint32 == 0x0A)
-                        tempString += "\r";
-                    else if (temp_uint32 == 0x0D)
                         tempString += "\n";
+                    else if (temp_uint32 == 0x0D)
+                        tempString += "\r";
                     else
                         tempString += "\\x" + (temp_uint32 == 0 ? "00" : (temp_uint32 < 16 ? ("0" + temp_uint32.ToString("X")) : temp_uint32.ToString("X")));
                     
