@@ -106,13 +106,9 @@ namespace DataTransfer
             string tempString = "";
             for (int i = 0; i < tempByte.Length; i++ )
             {
-                if (tempByte[i] < 0x80)
-                    tempString += tempByte[i].ToString("X");
-                else
-                {
-                    tempString += (tempByte[i] / 16).ToString("X");
-                    tempString += (tempByte[i] % 16).ToString("X");
-                }
+                tempString += (tempByte[i] / 16).ToString("X");
+                tempString += (tempByte[i] % 16).ToString("X");
+                
                 if (is_insertSpace)
                     tempString += " ";
             }
@@ -136,7 +132,15 @@ namespace DataTransfer
             string tempString = "";
             for (int i = 0; i < tempByte.Length; i++)
             {
-                tempString += Convert.ToString((UInt16)tempByte[i], 2);
+                //tempString += Convert.ToString((UInt16)tempByte[i], 2);
+                byte tb = tempByte[i];
+                for (int c = 0; c < 8; c++) {
+                    if ((tb & 0x80) == 0)
+                        tempString += "0";
+                    else
+                        tempString += "1";
+                    tb <<= 1;
+                }
                 if (is_insertSpace)
                     tempString += " ";
             }
@@ -147,13 +151,9 @@ namespace DataTransfer
             string tempString = "";
             for (int i = 0; i < tempByte.Length; i++)
             {
-                if (tempByte[i] < 0x80)
-                    tempString += tempByte[i].ToString("X");
-                else
-                {
-                    tempString += (tempByte[i] / 16).ToString("X");
-                    tempString += (tempByte[i] % 16).ToString("X");
-                }
+                tempString += (tempByte[i] / 16).ToString("X");
+                tempString += (tempByte[i] % 16).ToString("X");
+
                 if (is_insertSpace)
                     tempString += " ";
             }
@@ -181,12 +181,14 @@ namespace DataTransfer
             string tempString = "";
             for (int i = 0; i < tempByte.Length; i++)
             {
-                if (tempByte[i] < 0x80)
-                    tempString += Convert.ToString(tempByte[i], 2);
-                else
+                byte tb = tempByte[i];
+                for (int c = 0; c < 8; c++)
                 {
-                    tempString += Convert.ToString((tempByte[i] / 16), 2);
-                    tempString += Convert.ToString((tempByte[i] % 16), 2);
+                    if ((tb & 0x80) == 0)
+                        tempString += "0";
+                    else
+                        tempString += "1";
+                    tb <<= 1;
                 }
                 if (is_insertSpace)
                     tempString += " ";
@@ -236,9 +238,9 @@ namespace DataTransfer
                     if (temp_uint32 >= 32 && temp_uint32 <= 126)
                         tempString += (char)temp_uint32;
                     else if (temp_uint32 == 0x0A)
-                        tempString += '\r';
+                        tempString += "\r";
                     else if (temp_uint32 == 0x0D)
-                        tempString += '\n';
+                        tempString += "\n";
                     else
                         tempString += "\\x" + (temp_uint32 == 0 ? "00" : (temp_uint32 < 16 ? ("0" + temp_uint32.ToString("X")) : temp_uint32.ToString("X")));
                     
